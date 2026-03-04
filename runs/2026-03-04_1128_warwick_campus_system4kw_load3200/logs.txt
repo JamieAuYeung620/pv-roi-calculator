@@ -1,0 +1,3122 @@
+2026-03-04 11:28:36,240 | INFO | Logging started: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/logs.txt
+2026-03-04 11:28:36,240 | INFO | Run folder created: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200
+2026-03-04 11:28:36,240 | INFO | Repo root: /Users/jamie/Desktop/Diss/pv-roi-calculator
+2026-03-04 11:28:36,241 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:28:36,241 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2020 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus --force
+2026-03-04 11:28:39,175 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,784
+- Time range (UTC): 2020-01-01 00:11:00+00:00  to  2020-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2020-01-01 00:11:00+00:00         0.0      6.26
+2020-01-01 01:11:00+00:00         0.0      6.01
+2020-01-01 02:11:00+00:00         0.0      5.76
+2020-01-01 03:11:00+00:00         0.0      5.40
+2020-01-01 04:11:00+00:00         0.0      5.05
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2020-06-01_2020-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2020-06-01_2020-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:28:39,176 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2020_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:28:39,176 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:28:39,185 | INFO | Wrote PVGIS provenance: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/pvgis_request.txt
+2026-03-04 11:28:39,185 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:28:39,772 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,751.5
+  Household load:         3,200.0
+  Self-consumed PV:       1,191.0  (31.7% of PV)
+  Exported PV:            2,560.4  (68.3% of PV)
+  Grid import with PV:    2,009.0
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           562.51
+  Export revenue:                384.06
+  Effective bill with PV:        178.44
+  Net annual benefit:            717.56
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:39,773 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:28:40,587 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,751.5 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,191.0 kWh
+  Exported PV:            2,560.4 kWh
+  Grid import with PV:    2,009.0 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £178.44
+  Annual savings:         £717.56
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.28
+  Bill with PV:           £103.67
+  Annual savings:         £674.61
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 10
+  Tariff A NPV:           £640.38
+  Tariff B NPV:           £196.24
+  Tariff A ROI:           59.3%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           48.6%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:40,597 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus.csv (rows=8784)
+2026-03-04 11:28:40,599 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/verification_checks.csv
+2026-03-04 11:28:40,600 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/monthly.csv
+2026-03-04 11:28:40,600 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/monthly.csv -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/monthly_summary.csv
+2026-03-04 11:28:40,606 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/financial_monthly.csv
+2026-03-04 11:28:40,606 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/financial_monthly.csv -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/monthly_fdinancial_summary.csv
+2026-03-04 11:28:40,608 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/financial_summary.csv
+2026-03-04 11:28:40,923 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus.png -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/plots/cumulative_cashflow.png
+2026-03-04 11:28:40,923 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus.png -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/plots/annual_cashflow_bars.png
+2026-03-04 11:28:40,923 | INFO | Variability mode enabled: years 2005..2023
+2026-03-04 11:28:40,923 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:28:40,923 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2005 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2005 --force
+2026-03-04 11:28:43,097 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2005.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2005-01-01 00:11:00+00:00  to  2005-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2005-01-01 00:11:00+00:00         0.0      5.67
+2005-01-01 01:11:00+00:00         0.0      4.87
+2005-01-01 02:11:00+00:00         0.0      4.59
+2005-01-01 03:11:00+00:00         0.0      4.66
+2005-01-01 04:11:00+00:00         0.0      5.36
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2005_2005-06-01_2005-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2005_2005-06-01_2005-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:28:43,097 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2005_2005_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:28:43,098 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:28:43,098 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2005 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:28:43,687 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2005.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2005
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,460.6
+  Household load:         3,200.0
+  Self-consumed PV:       1,168.2  (33.8% of PV)
+  Exported PV:            2,292.4  (66.2% of PV)
+  Grid import with PV:    2,031.8
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           568.91
+  Export revenue:                343.86
+  Effective bill with PV:        225.05
+  Net annual benefit:            670.95
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2005.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2005.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2005.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2005.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2005.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:43,687 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2005 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:28:44,507 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2005.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2005
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,460.6 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,168.2 kWh
+  Exported PV:            2,292.4 kWh
+  Grid import with PV:    2,031.8 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £225.05
+  Annual savings:         £670.95
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.26
+  Bill with PV:           £145.72
+  Annual savings:         £632.54
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 11
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £168.85
+  Tariff B NPV:           £-227.82
+  Tariff A ROI:           48.0%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           38.4%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2005.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2005.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2005.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2005.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:44,517 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2005.csv (rows=8760)
+2026-03-04 11:28:44,519 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:28:44,519 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2006 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2006 --force
+2026-03-04 11:28:46,507 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2006.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2006-01-01 00:11:00+00:00  to  2006-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2006-01-01 00:11:00+00:00         0.0      4.69
+2006-01-01 01:11:00+00:00         0.0      5.04
+2006-01-01 02:11:00+00:00         0.0      5.36
+2006-01-01 03:11:00+00:00         0.0      5.56
+2006-01-01 04:11:00+00:00         0.0      5.69
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2006_2006-06-01_2006-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2006_2006-06-01_2006-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:28:46,508 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2006_2006_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:28:46,508 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:28:46,508 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2006 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:28:47,101 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2006.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2006
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,647.0
+  Household load:         3,200.0
+  Self-consumed PV:       1,193.7  (32.7% of PV)
+  Exported PV:            2,453.3  (67.3% of PV)
+  Grid import with PV:    2,006.3
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           561.76
+  Export revenue:                367.99
+  Effective bill with PV:        193.77
+  Net annual benefit:            702.23
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2006.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2006.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2006.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2006.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2006.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:47,102 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2006 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:28:47,922 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2006.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2006
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,647.0 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,193.7 kWh
+  Exported PV:            2,453.3 kWh
+  Grid import with PV:    2,006.3 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £193.77
+  Annual savings:         £702.23
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.26
+  Bill with PV:           £118.54
+  Annual savings:         £659.72
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £485.26
+  Tariff B NPV:           £45.95
+  Tariff A ROI:           55.6%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           45.0%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2006.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2006.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2006.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2006.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:47,933 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2006.csv (rows=8760)
+2026-03-04 11:28:47,934 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:28:47,934 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2007 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2007 --force
+2026-03-04 11:28:50,488 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2007.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2007-01-01 00:11:00+00:00  to  2007-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2007-01-01 00:11:00+00:00         0.0      7.06
+2007-01-01 01:11:00+00:00         0.0      6.92
+2007-01-01 02:11:00+00:00         0.0      6.93
+2007-01-01 03:11:00+00:00         0.0      6.61
+2007-01-01 04:11:00+00:00         0.0      6.10
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2007_2007-06-01_2007-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2007_2007-06-01_2007-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:28:50,489 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2007_2007_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:28:50,489 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:28:50,489 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2007 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:28:51,094 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2007.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2007
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,618.6
+  Household load:         3,200.0
+  Self-consumed PV:       1,202.1  (33.2% of PV)
+  Exported PV:            2,416.5  (66.8% of PV)
+  Grid import with PV:    1,997.9
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           559.41
+  Export revenue:                362.48
+  Effective bill with PV:        196.93
+  Net annual benefit:            699.07
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2007.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2007.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2007.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2007.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2007.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:51,094 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2007 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:28:51,975 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2007.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2007
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,618.6 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,202.1 kWh
+  Exported PV:            2,416.5 kWh
+  Grid import with PV:    1,997.9 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £196.93
+  Annual savings:         £699.07
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £122.16
+  Annual savings:         £656.11
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £454.07
+  Tariff B NPV:           £10.15
+  Tariff A ROI:           54.8%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           44.1%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2007.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2007.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2007.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2007.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:51,986 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2007.csv (rows=8760)
+2026-03-04 11:28:51,987 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:28:51,987 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2008 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2008 --force
+2026-03-04 11:28:54,821 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2008.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,784
+- Time range (UTC): 2008-01-01 00:11:00+00:00  to  2008-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2008-01-01 00:11:00+00:00         0.0      6.12
+2008-01-01 01:11:00+00:00         0.0      6.16
+2008-01-01 02:11:00+00:00         0.0      6.00
+2008-01-01 03:11:00+00:00         0.0      5.94
+2008-01-01 04:11:00+00:00         0.0      5.67
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2008_2008-06-01_2008-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2008_2008-06-01_2008-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:28:54,822 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2008_2008_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:28:54,822 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:28:54,822 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2008 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:28:55,405 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2008.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2008
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,418.3
+  Household load:         3,200.0
+  Self-consumed PV:       1,162.3  (34.0% of PV)
+  Exported PV:            2,256.0  (66.0% of PV)
+  Grid import with PV:    2,037.7
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           570.56
+  Export revenue:                338.40
+  Effective bill with PV:        232.15
+  Net annual benefit:            663.85
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2008.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2008.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2008.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2008.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2008.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:55,405 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2008 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:28:56,224 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2008.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2008
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,418.3 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,162.3 kWh
+  Exported PV:            2,256.0 kWh
+  Grid import with PV:    2,037.7 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £232.15
+  Annual savings:         £663.85
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.28
+  Bill with PV:           £156.82
+  Annual savings:         £621.45
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 11
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £97.30
+  Tariff B NPV:           £-340.98
+  Tariff A ROI:           46.3%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           35.7%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2008.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2008.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2008.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2008.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:56,234 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2008.csv (rows=8784)
+2026-03-04 11:28:56,236 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:28:56,236 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2009 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2009 --force
+2026-03-04 11:28:58,995 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2009.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2009-01-01 00:11:00+00:00  to  2009-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2009-01-01 00:11:00+00:00         0.0     -2.42
+2009-01-01 01:11:00+00:00         0.0     -2.33
+2009-01-01 02:11:00+00:00         0.0     -2.50
+2009-01-01 03:11:00+00:00         0.0     -2.41
+2009-01-01 04:11:00+00:00         0.0     -2.30
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2009_2009-06-01_2009-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2009_2009-06-01_2009-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:28:58,996 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2009_2009_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:28:58,996 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:28:58,996 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2009 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:28:59,575 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2009.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2009
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,570.8
+  Household load:         3,200.0
+  Self-consumed PV:       1,184.9  (33.2% of PV)
+  Exported PV:            2,386.0  (66.8% of PV)
+  Grid import with PV:    2,015.1
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           564.24
+  Export revenue:                357.89
+  Effective bill with PV:        206.34
+  Net annual benefit:            689.66
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2009.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2009.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2009.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2009.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2009.png
+
+
+----- STDOUT END -----
+2026-03-04 11:28:59,576 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2009 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:00,407 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2009.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2009
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,570.8 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,184.9 kWh
+  Exported PV:            2,386.0 kWh
+  Grid import with PV:    2,015.1 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £206.34
+  Annual savings:         £689.66
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £131.13
+  Annual savings:         £647.14
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £359.18
+  Tariff B NPV:           £-80.52
+  Tariff A ROI:           52.5%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           42.0%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2009.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2009.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2009.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2009.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:00,418 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2009.csv (rows=8760)
+2026-03-04 11:29:00,420 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:00,420 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2010 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2010 --force
+2026-03-04 11:29:03,973 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2010.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2010-01-01 00:11:00+00:00  to  2010-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2010-01-01 00:11:00+00:00         0.0     -1.49
+2010-01-01 01:11:00+00:00         0.0     -1.70
+2010-01-01 02:11:00+00:00         0.0     -1.93
+2010-01-01 03:11:00+00:00         0.0     -2.08
+2010-01-01 04:11:00+00:00         0.0     -2.37
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2010_2010-06-01_2010-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2010_2010-06-01_2010-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:03,973 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2010_2010_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:03,974 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:03,974 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2010 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:04,582 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2010.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2010
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,603.7
+  Household load:         3,200.0
+  Self-consumed PV:       1,198.5  (33.3% of PV)
+  Exported PV:            2,405.2  (66.7% of PV)
+  Grid import with PV:    2,001.5
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           560.43
+  Export revenue:                360.78
+  Effective bill with PV:        199.65
+  Net annual benefit:            696.35
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2010.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2010.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2010.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2010.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2010.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:04,583 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2010 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:05,418 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2010.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2010
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,603.7 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,198.5 kWh
+  Exported PV:            2,405.2 kWh
+  Grid import with PV:    2,001.5 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £199.65
+  Annual savings:         £696.35
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £124.83
+  Annual savings:         £653.45
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £426.26
+  Tariff B NPV:           £-17.31
+  Tariff A ROI:           54.1%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           43.5%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2010.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2010.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2010.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2010.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:05,429 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2010.csv (rows=8760)
+2026-03-04 11:29:05,430 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:05,431 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2011 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2011 --force
+2026-03-04 11:29:08,386 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2011.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2011-01-01 00:11:00+00:00  to  2011-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2011-01-01 00:11:00+00:00         0.0      3.68
+2011-01-01 01:11:00+00:00         0.0      3.72
+2011-01-01 02:11:00+00:00         0.0      3.72
+2011-01-01 03:11:00+00:00         0.0      3.96
+2011-01-01 04:11:00+00:00         0.0      4.09
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2011_2011-06-01_2011-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2011_2011-06-01_2011-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:08,387 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2011_2011_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:08,388 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:08,388 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2011 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:08,985 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2011.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2011
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,598.2
+  Household load:         3,200.0
+  Self-consumed PV:       1,193.1  (33.2% of PV)
+  Exported PV:            2,405.1  (66.8% of PV)
+  Grid import with PV:    2,006.9
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           561.94
+  Export revenue:                360.77
+  Effective bill with PV:        201.17
+  Net annual benefit:            694.83
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2011.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2011.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2011.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2011.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2011.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:08,985 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2011 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:09,797 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2011.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2011
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,598.2 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,193.1 kWh
+  Exported PV:            2,405.1 kWh
+  Grid import with PV:    2,006.9 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £201.17
+  Annual savings:         £694.83
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.26
+  Bill with PV:           £126.12
+  Annual savings:         £652.14
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £410.81
+  Tariff B NPV:           £-30.50
+  Tariff A ROI:           53.8%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           43.2%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2011.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2011.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2011.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2011.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:09,808 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2011.csv (rows=8760)
+2026-03-04 11:29:09,809 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:09,809 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2012 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2012 --force
+2026-03-04 11:29:12,396 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2012.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,784
+- Time range (UTC): 2012-01-01 00:11:00+00:00  to  2012-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2012-01-01 00:11:00+00:00         0.0     10.75
+2012-01-01 01:11:00+00:00         0.0     10.91
+2012-01-01 02:11:00+00:00         0.0     10.74
+2012-01-01 03:11:00+00:00         0.0     10.69
+2012-01-01 04:11:00+00:00         0.0     10.53
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2012_2012-06-01_2012-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2012_2012-06-01_2012-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:12,397 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2012_2012_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:12,397 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:12,397 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2012 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:12,992 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2012.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2012
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,446.5
+  Household load:         3,200.0
+  Self-consumed PV:       1,187.9  (34.5% of PV)
+  Exported PV:            2,258.6  (65.5% of PV)
+  Grid import with PV:    2,012.1
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           563.39
+  Export revenue:                338.79
+  Effective bill with PV:        224.60
+  Net annual benefit:            671.40
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2012.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2012.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2012.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2012.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2012.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:12,993 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2012 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:13,810 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2012.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2012
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,446.5 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,187.9 kWh
+  Exported PV:            2,258.6 kWh
+  Grid import with PV:    2,012.1 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £224.60
+  Annual savings:         £671.40
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.26
+  Bill with PV:           £149.50
+  Annual savings:         £628.76
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 11
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £174.59
+  Tariff B NPV:           £-266.11
+  Tariff A ROI:           48.1%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           37.5%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2012.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2012.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2012.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2012.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:13,821 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2012.csv (rows=8784)
+2026-03-04 11:29:13,822 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:13,822 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2013 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2013 --force
+2026-03-04 11:29:16,042 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2013.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2013-01-01 00:11:00+00:00  to  2013-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2013-01-01 00:11:00+00:00         0.0      6.01
+2013-01-01 01:11:00+00:00         0.0      5.51
+2013-01-01 02:11:00+00:00         0.0      4.66
+2013-01-01 03:11:00+00:00         0.0      3.70
+2013-01-01 04:11:00+00:00         0.0      3.09
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2013_2013-06-01_2013-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2013_2013-06-01_2013-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:16,043 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2013_2013_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:16,043 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:16,043 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2013 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:16,637 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2013.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2013
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,544.6
+  Household load:         3,200.0
+  Self-consumed PV:       1,187.4  (33.5% of PV)
+  Exported PV:            2,357.2  (66.5% of PV)
+  Grid import with PV:    2,012.6
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           563.53
+  Export revenue:                353.58
+  Effective bill with PV:        209.95
+  Net annual benefit:            686.05
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2013.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2013.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2013.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2013.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2013.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:16,637 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2013 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:17,492 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2013.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2013
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,544.6 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,187.4 kWh
+  Exported PV:            2,357.2 kWh
+  Grid import with PV:    2,012.6 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £209.95
+  Annual savings:         £686.05
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £134.56
+  Annual savings:         £643.71
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £321.95
+  Tariff B NPV:           £-115.55
+  Tariff A ROI:           51.6%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           41.1%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2013.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2013.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2013.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2013.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:17,504 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2013.csv (rows=8760)
+2026-03-04 11:29:17,505 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:17,505 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2014 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2014 --force
+2026-03-04 11:29:19,344 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2014.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2014-01-01 00:11:00+00:00  to  2014-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2014-01-01 00:11:00+00:00         0.0      5.53
+2014-01-01 01:11:00+00:00         0.0      5.30
+2014-01-01 02:11:00+00:00         0.0      4.78
+2014-01-01 03:11:00+00:00         0.0      4.49
+2014-01-01 04:11:00+00:00         0.0      4.51
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2014_2014-06-01_2014-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2014_2014-06-01_2014-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:19,345 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2014_2014_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:19,345 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:19,345 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2014 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:19,933 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2014.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2014
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,749.3
+  Household load:         3,200.0
+  Self-consumed PV:       1,206.8  (32.2% of PV)
+  Exported PV:            2,542.5  (67.8% of PV)
+  Grid import with PV:    1,993.2
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           558.10
+  Export revenue:                381.37
+  Effective bill with PV:        176.72
+  Net annual benefit:            719.28
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2014.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2014.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2014.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2014.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2014.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:19,933 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2014 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:20,763 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2014.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2014
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,749.3 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,206.8 kWh
+  Exported PV:            2,542.5 kWh
+  Grid import with PV:    1,993.2 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £176.72
+  Annual savings:         £719.28
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £102.07
+  Annual savings:         £676.21
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 10
+  Tariff A NPV:           £658.40
+  Tariff B NPV:           £212.94
+  Tariff A ROI:           59.7%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           49.0%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2014.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2014.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2014.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2014.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:20,774 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2014.csv (rows=8760)
+2026-03-04 11:29:20,775 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:20,775 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2015 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2015 --force
+2026-03-04 11:29:23,403 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2015.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2015-01-01 00:11:00+00:00  to  2015-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2015-01-01 00:11:00+00:00         0.0      6.31
+2015-01-01 01:11:00+00:00         0.0      6.52
+2015-01-01 02:11:00+00:00         0.0      6.80
+2015-01-01 03:11:00+00:00         0.0      7.06
+2015-01-01 04:11:00+00:00         0.0      7.40
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2015_2015-06-01_2015-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2015_2015-06-01_2015-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:23,404 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2015_2015_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:23,404 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:23,404 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2015 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:23,996 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2015.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2015
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,630.7
+  Household load:         3,200.0
+  Self-consumed PV:       1,207.3  (33.3% of PV)
+  Exported PV:            2,423.4  (66.7% of PV)
+  Grid import with PV:    1,992.7
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           557.95
+  Export revenue:                363.51
+  Effective bill with PV:        194.44
+  Net annual benefit:            701.56
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2015.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2015.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2015.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2015.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2015.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:23,996 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2015 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:24,836 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2015.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2015
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,630.7 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,207.3 kWh
+  Exported PV:            2,423.4 kWh
+  Grid import with PV:    1,992.7 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £194.44
+  Annual savings:         £701.56
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £119.55
+  Annual savings:         £658.73
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £479.11
+  Tariff B NPV:           £36.43
+  Tariff A ROI:           55.4%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           44.8%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2015.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2015.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2015.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2015.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:24,846 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2015.csv (rows=8760)
+2026-03-04 11:29:24,848 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:24,848 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2016 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2016 --force
+2026-03-04 11:29:27,395 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2016.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,784
+- Time range (UTC): 2016-01-01 00:11:00+00:00  to  2016-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2016-01-01 00:11:00+00:00         0.0      2.89
+2016-01-01 01:11:00+00:00         0.0      2.37
+2016-01-01 02:11:00+00:00         0.0      1.70
+2016-01-01 03:11:00+00:00         0.0      0.88
+2016-01-01 04:11:00+00:00         0.0      0.05
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2016_2016-06-01_2016-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2016_2016-06-01_2016-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:27,396 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2016_2016_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:27,396 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:27,396 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2016 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:27,990 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2016.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2016
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,482.8
+  Household load:         3,200.0
+  Self-consumed PV:       1,180.0  (33.9% of PV)
+  Exported PV:            2,302.8  (66.1% of PV)
+  Grid import with PV:    2,020.0
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           565.59
+  Export revenue:                345.42
+  Effective bill with PV:        220.17
+  Net annual benefit:            675.83
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2016.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2016.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2016.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2016.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2016.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:27,991 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2016 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:28,827 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2016.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2016
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,482.8 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,180.0 kWh
+  Exported PV:            2,302.8 kWh
+  Grid import with PV:    2,020.0 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £220.17
+  Annual savings:         £675.83
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.26
+  Bill with PV:           £145.42
+  Annual savings:         £632.84
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £218.78
+  Tariff B NPV:           £-225.48
+  Tariff A ROI:           49.2%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           38.5%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2016.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2016.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2016.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2016.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:28,837 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2016.csv (rows=8784)
+2026-03-04 11:29:28,839 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:28,839 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2017 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2017 --force
+2026-03-04 11:29:31,640 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2017.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2017-01-01 00:11:00+00:00  to  2017-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2017-01-01 00:11:00+00:00         0.0      5.94
+2017-01-01 01:11:00+00:00         0.0      5.95
+2017-01-01 02:11:00+00:00         0.0      6.18
+2017-01-01 03:11:00+00:00         0.0      6.34
+2017-01-01 04:11:00+00:00         0.0      6.42
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2017_2017-06-01_2017-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2017_2017-06-01_2017-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:31,640 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2017_2017_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:31,641 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:31,641 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2017 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:32,238 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2017.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2017
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,438.1
+  Household load:         3,200.0
+  Self-consumed PV:       1,162.5  (33.8% of PV)
+  Exported PV:            2,275.6  (66.2% of PV)
+  Grid import with PV:    2,037.5
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           570.50
+  Export revenue:                341.34
+  Effective bill with PV:        229.16
+  Net annual benefit:            666.84
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2017.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2017.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2017.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2017.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2017.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:32,239 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2017 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:33,067 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2017.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2017
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,438.1 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,162.5 kWh
+  Exported PV:            2,275.6 kWh
+  Grid import with PV:    2,037.5 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £229.16
+  Annual savings:         £666.84
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.26
+  Bill with PV:           £153.72
+  Annual savings:         £624.54
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 11
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £127.67
+  Tariff B NPV:           £-309.59
+  Tariff A ROI:           47.0%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           36.5%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2017.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2017.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2017.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2017.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:33,078 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2017.csv (rows=8760)
+2026-03-04 11:29:33,079 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:33,079 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2018 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2018 --force
+2026-03-04 11:29:36,969 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2018.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2018-01-01 00:11:00+00:00  to  2018-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2018-01-01 00:11:00+00:00         0.0      5.03
+2018-01-01 01:11:00+00:00         0.0      4.35
+2018-01-01 02:11:00+00:00         0.0      4.20
+2018-01-01 03:11:00+00:00         0.0      4.42
+2018-01-01 04:11:00+00:00         0.0      4.84
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2018_2018-06-01_2018-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2018_2018-06-01_2018-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:36,970 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2018_2018_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:36,970 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:36,970 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2018 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:37,580 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2018.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2018
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,741.1
+  Household load:         3,200.0
+  Self-consumed PV:       1,183.0  (31.6% of PV)
+  Exported PV:            2,558.1  (68.4% of PV)
+  Grid import with PV:    2,017.0
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           564.77
+  Export revenue:                383.71
+  Effective bill with PV:        181.05
+  Net annual benefit:            714.95
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2018.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2018.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2018.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2018.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2018.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:37,580 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2018 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:38,404 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2018.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2018
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,741.1 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,183.0 kWh
+  Exported PV:            2,558.1 kWh
+  Grid import with PV:    2,017.0 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £181.05
+  Annual savings:         £714.95
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £105.66
+  Annual savings:         £672.61
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £613.03
+  Tariff B NPV:           £175.71
+  Tariff A ROI:           58.6%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           48.1%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2018.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2018.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2018.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2018.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:38,415 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2018.csv (rows=8760)
+2026-03-04 11:29:38,417 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:38,417 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2019 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2019 --force
+2026-03-04 11:29:40,387 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2019.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2019-01-01 00:11:00+00:00  to  2019-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2019-01-01 00:11:00+00:00         0.0      4.96
+2019-01-01 01:11:00+00:00         0.0      4.95
+2019-01-01 02:11:00+00:00         0.0      4.91
+2019-01-01 03:11:00+00:00         0.0      4.78
+2019-01-01 04:11:00+00:00         0.0      4.74
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2019_2019-06-01_2019-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2019_2019-06-01_2019-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:40,387 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2019_2019_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:40,388 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:40,388 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2019 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:40,977 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2019.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2019
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,554.7
+  Household load:         3,200.0
+  Self-consumed PV:       1,188.6  (33.4% of PV)
+  Exported PV:            2,366.1  (66.6% of PV)
+  Grid import with PV:    2,011.4
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           563.20
+  Export revenue:                354.92
+  Effective bill with PV:        208.28
+  Net annual benefit:            687.72
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2019.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2019.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2019.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2019.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2019.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:40,978 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2019 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:41,804 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2019.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2019
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,554.7 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,188.6 kWh
+  Exported PV:            2,366.1 kWh
+  Grid import with PV:    2,011.4 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £208.28
+  Annual savings:         £687.72
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £133.15
+  Annual savings:         £645.13
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £339.07
+  Tariff B NPV:           £-101.38
+  Tariff A ROI:           52.1%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           41.5%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2019.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2019.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2019.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2019.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:41,816 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2019.csv (rows=8760)
+2026-03-04 11:29:41,817 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:41,817 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2020 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2020 --force
+2026-03-04 11:29:45,297 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2020.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,784
+- Time range (UTC): 2020-01-01 00:11:00+00:00  to  2020-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2020-01-01 00:11:00+00:00         0.0      6.26
+2020-01-01 01:11:00+00:00         0.0      6.01
+2020-01-01 02:11:00+00:00         0.0      5.76
+2020-01-01 03:11:00+00:00         0.0      5.40
+2020-01-01 04:11:00+00:00         0.0      5.05
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2020_2020-06-01_2020-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2020_2020-06-01_2020-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:45,298 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2020_2020_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:45,298 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:45,298 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2020 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:45,885 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2020.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2020
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,751.5
+  Household load:         3,200.0
+  Self-consumed PV:       1,191.0  (31.7% of PV)
+  Exported PV:            2,560.4  (68.3% of PV)
+  Grid import with PV:    2,009.0
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           562.51
+  Export revenue:                384.06
+  Effective bill with PV:        178.44
+  Net annual benefit:            717.56
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2020.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2020.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2020.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2020.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2020.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:45,885 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2020 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:46,744 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2020.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2020
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,751.5 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,191.0 kWh
+  Exported PV:            2,560.4 kWh
+  Grid import with PV:    2,009.0 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £178.44
+  Annual savings:         £717.56
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.28
+  Bill with PV:           £103.67
+  Annual savings:         £674.61
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 10
+  Tariff A NPV:           £640.38
+  Tariff B NPV:           £196.24
+  Tariff A ROI:           59.3%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           48.6%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2020.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2020.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2020.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2020.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:46,756 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2020.csv (rows=8784)
+2026-03-04 11:29:46,757 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:46,757 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2021 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2021 --force
+2026-03-04 11:29:48,834 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2021.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2021-01-01 00:11:00+00:00  to  2021-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2021-01-01 00:11:00+00:00         0.0     -0.86
+2021-01-01 01:11:00+00:00         0.0     -0.71
+2021-01-01 02:11:00+00:00         0.0     -1.18
+2021-01-01 03:11:00+00:00         0.0     -1.28
+2021-01-01 04:11:00+00:00         0.0     -1.60
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2021_2021-06-01_2021-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2021_2021-06-01_2021-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:48,835 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2021_2021_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:48,835 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:48,835 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2021 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:49,433 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2021.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2021
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,521.6
+  Household load:         3,200.0
+  Self-consumed PV:       1,174.9  (33.4% of PV)
+  Exported PV:            2,346.7  (66.6% of PV)
+  Grid import with PV:    2,025.1
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           567.03
+  Export revenue:                352.00
+  Effective bill with PV:        215.03
+  Net annual benefit:            680.97
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2021.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2021.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2021.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2021.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2021.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:49,433 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2021 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:50,271 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2021.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2021
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,521.6 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,174.9 kWh
+  Exported PV:            2,346.7 kWh
+  Grid import with PV:    2,025.1 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £215.03
+  Annual savings:         £680.97
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £138.82
+  Annual savings:         £639.45
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £270.71
+  Tariff B NPV:           £-158.61
+  Tariff A ROI:           50.4%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           40.1%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2021.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2021.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2021.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2021.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:50,282 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2021.csv (rows=8760)
+2026-03-04 11:29:50,284 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:50,284 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2022 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2022 --force
+2026-03-04 11:29:52,422 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2022.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2022-01-01 00:11:00+00:00  to  2022-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2022-01-01 00:11:00+00:00         0.0     12.99
+2022-01-01 01:11:00+00:00         0.0     12.97
+2022-01-01 02:11:00+00:00         0.0     12.70
+2022-01-01 03:11:00+00:00         0.0     12.28
+2022-01-01 04:11:00+00:00         0.0     11.98
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2022_2022-06-01_2022-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2022_2022-06-01_2022-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:52,422 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2022_2022_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:52,423 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:52,423 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2022 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:53,076 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2022.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2022
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,721.1
+  Household load:         3,200.0
+  Self-consumed PV:       1,192.3  (32.0% of PV)
+  Exported PV:            2,528.8  (68.0% of PV)
+  Grid import with PV:    2,007.7
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           562.17
+  Export revenue:                379.33
+  Effective bill with PV:        182.84
+  Net annual benefit:            713.16
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2022.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2022.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2022.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2022.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2022.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:53,077 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2022 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:53,920 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2022.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2022
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,721.1 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,192.3 kWh
+  Exported PV:            2,528.8 kWh
+  Grid import with PV:    2,007.7 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £182.84
+  Annual savings:         £713.16
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.26
+  Bill with PV:           £107.77
+  Annual savings:         £670.48
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £596.31
+  Tariff B NPV:           £154.85
+  Tariff A ROI:           58.2%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           47.6%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2022.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2022.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2022.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2022.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:53,931 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2022.csv (rows=8760)
+2026-03-04 11:29:53,933 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-04 11:29:53,933 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2023 --surface-tilt 0.0 --surface-azimuth 180.0 --location warwick_campus_2023 --force
+2026-03-04 11:29:56,180 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2023.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2023-01-01 00:11:00+00:00  to  2023-12-31 23:11:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2023-01-01 00:11:00+00:00         0.0      9.41
+2023-01-01 01:11:00+00:00         0.0      9.05
+2023-01-01 02:11:00+00:00         0.0      8.59
+2023-01-01 03:11:00+00:00         0.0      8.18
+2023-01-01 04:11:00+00:00         0.0      7.98
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_warwick_campus_2023_2023-06-01_2023-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_warwick_campus_2023_2023-06-01_2023-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-03-04 11:29:56,181 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_warwick_campus_2023_2023_lat52p384_lonm1p5615_tilt0_az180.csv
+2026-03-04 11:29:56,181 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/data/raw_pvgis.csv
+2026-03-04 11:29:56,181 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_core.py --location warwick_campus_2023 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --seasonal-variance-pct 30 --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 1.0 --noct 40.0 --week-days 7
+2026-03-04 11:29:56,787 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_warwick_campus_2023.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 warwick_campus_2023
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    1.000
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   40.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          3,624.5
+  Household load:         3,200.0
+  Self-consumed PV:       1,182.2  (32.6% of PV)
+  Exported PV:            2,442.3  (67.4% of PV)
+  Grid import with PV:    2,017.8
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           564.99
+  Export revenue:                366.34
+  Effective bill with PV:        198.65
+  Net annual benefit:            697.35
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2023.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_warwick_campus_2023.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_warwick_campus_2023.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_warwick_campus_2023.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_warwick_campus_2023.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:56,787 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/roi_calculator_finance.py --location warwick_campus_2023 --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 15 --degradation 0.005 --om-frac 0.01 --salvage-value-gbp 0.0 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --tariffC-export 0.05 --peak-start 16 --peak-end 19
+2026-03-04 11:29:57,605 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2023.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 warwick_campus_2023
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          3,624.5 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,182.2 kWh
+  Exported PV:            2,442.3 kWh
+  Grid import with PV:    2,017.8 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £198.65
+  Annual savings:         £697.35
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.26
+  Bill with PV:           £122.71
+  Annual savings:         £655.55
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               15 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 10
+  Tariff B payback:       Year 11
+  Tariff A NPV:           £436.30
+  Tariff B NPV:           £4.23
+  Tariff A ROI:           54.4%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           44.0%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_warwick_campus_2023.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_warwick_campus_2023.png
+  PNG  Cumulative cashflow comparison (all): /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_all_warwick_campus_2023.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_warwick_campus_2023.png
+
+
+----- STDOUT END -----
+2026-03-04 11:29:57,616 | INFO | Loaded core hourly energy: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_warwick_campus_2023.csv (rows=8760)
+2026-03-04 11:29:57,618 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/variability_yearly.csv
+2026-03-04 11:29:57,620 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/variability_summary.csv
+2026-03-04 11:29:57,678 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/variability_annual_savings_vs_year.png
+2026-03-04 11:29:57,736 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/variability_annual_savings_vs_year_tariffB.png
+2026-03-04 11:29:57,809 | INFO | Exported: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/outputs/variability_annual_savings_hist.png
+2026-03-04 11:29:57,812 | INFO | Wrote summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/summary.md
+2026-03-04 11:29:57,820 | INFO | Demo pack report: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/summary.html
+2026-03-04 11:29:57,820 | INFO | ✅ Pipeline complete. Run folder: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200
+2026-03-04 11:29:57,820 | INFO | Summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-04_1128_warwick_campus_system4kw_load3200/summary.md

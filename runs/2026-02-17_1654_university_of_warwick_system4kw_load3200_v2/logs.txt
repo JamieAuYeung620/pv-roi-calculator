@@ -1,0 +1,9 @@
+2026-02-17 16:54:48,806 | INFO | Logging started: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-17_1654_university_of_warwick_system4kw_load3200_v2/logs.txt
+2026-02-17 16:54:48,806 | INFO | Run folder created: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-17_1654_university_of_warwick_system4kw_load3200_v2
+2026-02-17 16:54:48,807 | INFO | Repo root: /Users/jamie/Desktop/Diss/pv-roi-calculator
+2026-02-17 16:54:48,807 | INFO | PVGIS: Using cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_university_of_warwick_2020_lat52p384_lonm1p5615.csv
+2026-02-17 16:54:48,809 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-17_1654_university_of_warwick_system4kw_load3200_v2/data/raw_pvgis.csv
+2026-02-17 16:54:48,826 | INFO | Wrote PVGIS provenance: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-17_1654_university_of_warwick_system4kw_load3200_v2/data/pvgis_request.txt
+2026-02-17 16:54:48,826 | INFO | Running command:
+  /Library/Frameworks/Python.framework/Versions/3.14/bin/python3 src/roi_calculator_core.py --location university_of_warwick --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 0.96 --noct 45.0 --week-days 7
+2026-02-17 16:54:49,358 | ERROR | Command failed with return code: -6

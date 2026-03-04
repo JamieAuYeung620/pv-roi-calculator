@@ -1,0 +1,2 @@
+location,system_kw,annual_load_kwh,profile,tariffA_import,tariffA_export,tariffB_peak,tariffB_offpeak,tariffB_export,annual_pv_kwh,annual_self_consumed_kwh,annual_exported_kwh,annual_savings_tariffA_gbp,annual_savings_tariffB_gbp,payback_year_tariffA,payback_year_tariffB,npv_tariffA,npv_tariffB,roi_tariffA,roi_tariffB
+aron_s_house,4.0,3200.0,away_daytime,0.28,0.15,0.35,0.22,0.15,3558.034469581088,1201.5232825667704,2356.5111870143182,689.9031971708437,645.3016463313286,10.0,11.0,2508.6614165479386,1883.3469971753427,1.4876114749331697,1.3030051241028622

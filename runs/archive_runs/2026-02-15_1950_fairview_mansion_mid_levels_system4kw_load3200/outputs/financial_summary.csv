@@ -1,0 +1,2 @@
+location,system_kw,annual_load_kwh,profile,tariffA_import,tariffA_export,tariffB_peak,tariffB_offpeak,tariffB_export,annual_pv_kwh,annual_self_consumed_kwh,annual_exported_kwh,annual_savings_tariffA_gbp,annual_savings_tariffB_gbp,payback_year_tariffA,payback_year_tariffB,npv_tariffA,npv_tariffB,roi_tariffA,roi_tariffB
+fairview_mansion_mid_levels,4.0,3200.0,away_daytime,0.28,0.15,0.35,0.22,0.15,5122.75138377527,1115.3300354619441,4007.4213483133253,913.4056121763432,846.4858100486264,8.0,8.0,5514.278260876266,4578.017340416039,2.365319799241939,2.0890716151642965

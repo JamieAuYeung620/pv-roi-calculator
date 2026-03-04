@@ -1,0 +1,2 @@
+location,system_kw,annual_load_kwh,profile,salvage_value_gbp,tariffA_import,tariffC_export,annual_pv_kwh,annual_self_consumed_kwh,annual_exported_kwh,annual_savings_gbp,payback_year,npv,roi,tariff_mode
+london,4.0,3200.0,away_daytime,0.0,0.28,0.0,3942.704675309907,1204.651149458849,2738.053525851059,337.30232184847785,,-3143.341021654099,-0.3127343830763379,C

@@ -1,0 +1,94 @@
+{
+  "Warwick demo (cached, reliable)": {
+    "location_name": "warwick_campus",
+    "lat": 52.384,
+    "lon": -1.5615,
+    "year": 2020,
+    "force_download": false,
+
+    "system_kw": 4.0,
+    "annual_load_kwh": 3200.0,
+    "profile": "away_daytime",
+
+    "tariff_mode": "compare",
+    "tariffA_import": 0.28,
+    "tariffA_export": 0.15,
+    "tariffB_peak": 0.35,
+    "tariffB_offpeak": 0.22,
+    "tariffB_export": 0.15,
+    "peak_start": 16,
+    "peak_end": 19,
+
+    "capex": 6000.0,
+    "discount_rate": 0.05,
+    "lifetime_years": 25,
+    "degradation": 0.005,
+    "om_frac": 0.01,
+
+    "analysis_mode": "full_year",
+    "analysis_start": "2020-07-01",
+    "analysis_end": "2020-07-31",
+
+    "export_hourly": false,
+    "export_daily": false,
+    "export_monthly": true,
+
+    "plot_monthly": true,
+    "plot_week": true,
+    "plot_split": false,
+    "plot_cum": true,
+    "plot_bars": false,
+
+    "loss_frac": 0.14,
+    "inverter_eff": 0.96,
+    "noct": 45.0,
+    "temp_coeff": -0.004,
+    "inverter_ac_kw": 0.0
+  },
+  "Hong Kong demo (may require PVGIS download)": {
+    "location_name": "hong_kong",
+    "lat": 22.3193,
+    "lon": 114.1694,
+    "year": 2020,
+    "force_download": false,
+
+    "system_kw": 4.0,
+    "annual_load_kwh": 3500.0,
+    "profile": "home_daytime",
+
+    "tariff_mode": "A",
+    "tariffA_import": 0.30,
+    "tariffA_export": 0.10,
+    "tariffB_peak": 0.40,
+    "tariffB_offpeak": 0.25,
+    "tariffB_export": 0.10,
+    "peak_start": 18,
+    "peak_end": 22,
+
+    "capex": 6500.0,
+    "discount_rate": 0.05,
+    "lifetime_years": 25,
+    "degradation": 0.005,
+    "om_frac": 0.01,
+
+    "analysis_mode": "custom",
+    "analysis_start": "2020-07-01",
+    "analysis_end": "2020-07-31",
+
+    "export_hourly": false,
+    "export_daily": false,
+    "export_monthly": true,
+
+    "plot_monthly": true,
+    "plot_week": false,
+    "plot_split": true,
+    "plot_cum": false,
+    "plot_bars": false,
+
+    "loss_frac": 0.14,
+    "inverter_eff": 0.96,
+    "noct": 45.0,
+    "temp_coeff": -0.004,
+    "inverter_ac_kw": 0.0
+  }
+}

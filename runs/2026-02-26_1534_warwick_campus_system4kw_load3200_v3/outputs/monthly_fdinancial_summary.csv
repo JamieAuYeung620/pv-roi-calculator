@@ -1,0 +1,2 @@
+month,load_kwh,grid_import_kwh,exported_kwh,baseline_bill_tariffA_gbp,bill_with_pv_tariffA_gbp,savings_tariffA_gbp,load_peak_kwh,load_offpeak_kwh,import_peak_kwh,import_offpeak_kwh,baseline_bill_tariffB_gbp,bill_with_pv_tariffB_gbp,savings_tariffB_gbp,baseline_bill_gbp,bill_with_pv_gbp,savings_gbp
+2020-08,236.77415389486288,114.84948964357551,279.842789260667,66.29676309056161,-9.818561288898906,76.11532437946052,42.16730673535963,194.60684715950325,13.296463371753921,101.55302627182158,57.57206373246659,-14.980990429185432,72.55305416165203,,,

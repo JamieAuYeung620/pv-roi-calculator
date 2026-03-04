@@ -1,0 +1,25 @@
+Data Source: PVGIS (JRC) — via pvlib.iotools.get_pvgis_hourly
+Timestamp (UTC): 2026-02-25T12:50:27+00:00
+
+PVGIS base URL: https://re.jrc.ec.europa.eu/api/v5_2/
+PVGIS endpoint: hourly time series (via pvlib.get_pvgis_hourly)
+
+Requested parameters:
+- latitude: 51.4545
+- longitude: -2.5879
+- start_year: 2020
+- end_year: 2020
+- surface_tilt: 0
+- surface_azimuth: 180
+- components: True
+- pvcalculation: False
+- map_variables: True
+- timeout_seconds: 60
+
+Cache/source used by pipeline: downloaded:raw_bristol_2020_lat51p4545_lonm2p5879.csv
+Data range (UTC): 2020-01-01 00:10:00+00:00 to 2020-12-31 23:10:00+00:00
+
+Repro steps (Python):
+1) pip install pvlib pandas
+2) from pvlib.iotools import get_pvgis_hourly
+3) call get_pvgis_hourly(...) with the parameters above and url=PVGIS base URL

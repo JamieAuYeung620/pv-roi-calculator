@@ -1,0 +1,2 @@
+location,system_kw,annual_load_kwh,profile,tariffB_peak,tariffB_offpeak,tariffB_export,annual_pv_kwh,annual_self_consumed_kwh,annual_exported_kwh,annual_savings_gbp,payback_year,npv,roi,tariff_mode,peak_start_utc,peak_end_utc
+manchester,4.0,3200.0,away_daytime,0.35,0.22,0.15,3297.8049452538908,1149.6167989581604,2148.188146295731,602.8863227789658,12.0,-528.1213535184615,0.312176421060753,B,16,19

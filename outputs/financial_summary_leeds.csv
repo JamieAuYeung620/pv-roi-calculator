@@ -1,0 +1,2 @@
+location,system_kw,annual_load_kwh,profile,tariffA_import,tariffA_export,tariffB_peak,tariffB_offpeak,tariffB_export,annual_pv_kwh,annual_self_consumed_kwh,annual_exported_kwh,annual_savings_tariffA_gbp,annual_savings_tariffB_gbp,payback_year_tariffA,payback_year_tariffB,npv_tariffA,npv_tariffB,roi_tariffA,roi_tariffB
+leeds,4.0,3200.0,away_daytime,0.28,0.15,0.35,0.22,0.15,3312.3585675499253,1164.2220395488127,2148.1365280011123,648.2026502738345,606.3469205983242,11.0,12.0,1943.6954863165593,1358.0039593595657,1.3223044898808534,1.1494787497610996

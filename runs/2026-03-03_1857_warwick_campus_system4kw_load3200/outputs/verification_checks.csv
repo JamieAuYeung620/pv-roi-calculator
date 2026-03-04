@@ -1,0 +1,5 @@
+check_id,description,status,value,threshold,notes
+non_negative,All energy series are non-negative,PASS,0,>= -1e-9 kWh,Minimum across pv/load/self/export/import columns.
+pv_split,PV split consistency: self-consumed + exported does not exceed PV generation,PASS,4.44089e-16,max exceedance <= 1e-6 kWh,Computed row-wise exceedance: (self + export - pv).
+load_balance,Load balance: self-consumed + grid import matches load,PASS,2.22045e-16,max abs error <= 1e-6 kWh,Absolute row-wise mismatch.
+capacity_factor,Capacity factor is in a reasonable range,PASS,0.0987603,0.0 <= CF <= 0.35,CF = annual PV kWh / (system kW * 8760).

@@ -1,0 +1,166 @@
+2026-02-15 19:50:12,168 | INFO | Logging started: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/logs.txt
+2026-02-15 19:50:12,168 | INFO | Run folder created: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200
+2026-02-15 19:50:12,168 | INFO | Repo root: /Users/jamie/Desktop/Diss/pv-roi-calculator
+2026-02-15 19:50:12,168 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-02-15 19:50:12,168 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python src/pvgis_pipeline.py --lat 22.2828 --lon 114.1472 --year 2019 --location fairview_mansion_mid_levels
+2026-02-15 19:50:20,737 | INFO | ----- STDOUT START -----
+
+Computed column: poa_global = poa_direct + poa_sky_diffuse + poa_ground_diffuse
+Saved cached CSV: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_fairview_mansion_mid_levels.csv
+
+✅ PVGIS fetch succeeded.
+- Rows: 8,760
+- Time range (UTC): 2019-01-01 00:30:00+00:00  to  2019-12-31 23:30:00+00:00
+- Columns (8): ['poa_direct', 'poa_sky_diffuse', 'poa_ground_diffuse', 'solar_elevation', 'temp_air', 'wind_speed', 'Int', 'poa_global']
+
+Column check (required for Day 1):
+- Irradiance column found: poa_global
+- Temperature column found: temp_air
+
+Preview (first 5 rows of the two key columns):
+                           poa_global  temp_air
+time                                           
+2019-01-01 00:30:00+00:00      107.45     10.18
+2019-01-01 01:30:00+00:00      196.60     10.55
+2019-01-01 02:30:00+00:00      244.60     11.76
+2019-01-01 03:30:00+00:00      286.40     12.17
+2019-01-01 04:30:00+00:00      223.90     12.63
+
+Saved plots:
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/irradiance_fairview_mansion_mid_levels_2019-06-01_2019-06-07.png
+- /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/temperature_fairview_mansion_mid_levels_2019-06-01_2019-06-07.png
+Plot file exists check: True True
+
+----- STDOUT END -----
+2026-02-15 19:50:20,737 | INFO | PVGIS: Saved cache file: /Users/jamie/Desktop/Diss/pv-roi-calculator/data/cache/raw_fairview_mansion_mid_levels_2019_lat22p2828_lon114p1472.csv
+2026-02-15 19:50:20,738 | INFO | Run data saved: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/data/raw_pvgis.csv
+2026-02-15 19:50:20,738 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python src/roi_calculator_core.py --location fairview_mansion_mid_levels --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --import-tariff 0.28 --export-tariff 0.15 --temp-coeff -0.004 --loss-frac 0.14 --inverter-eff 0.96 --noct 45.0 --week-days 7
+2026-02-15 19:50:21,362 | INFO | ----- STDOUT START -----
+
+Loading PVGIS cached CSV...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/data/raw_fairview_mansion_mid_levels.csv
+
+Detected columns:
+  Irradiance:  poa_global  (expected units: W/m²)
+  Temperature: temp_air (expected units: °C)
+
+==============================================================================
+PV ROI Summary — Tariff A (flat import/export)
+==============================================================================
+Location:                 fairview_mansion_mid_levels
+PV system size (DC):      4.00 kW
+Load profile:             away_daytime
+Annual load target:       3,200 kWh/year
+
+PV model assumptions:
+  Lumped losses:          14.0%
+  Inverter efficiency:    0.960
+  Temperature coeff:      -0.0040 per °C
+  NOCT:                   45.0 °C
+  Inverter clipping:      4.00 kW AC
+
+Energy totals (kWh):
+  PV generation:          5,122.8
+  Household load:         3,200.0
+  Self-consumed PV:       1,115.3  (21.8% of PV)
+  Exported PV:            4,007.4  (78.2% of PV)
+  Grid import with PV:    2,084.7
+
+Tariffs (£/kWh):
+  Import price:           0.280
+  Export price:           0.150
+
+Bills (£):
+  Baseline (no PV) import cost:  896.00
+  Import cost with PV:           583.71
+  Export revenue:                601.11
+  Effective bill with PV:        -17.41
+  Net annual benefit:            913.41
+==============================================================================
+
+Saved outputs:
+  CSV  Hourly energy:   /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_fairview_mansion_mid_levels.csv
+  CSV  Monthly summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_fairview_mansion_mid_levels.csv
+  PNG  Monthly PV vs load: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_fairview_mansion_mid_levels.png
+  PNG  Week timeseries:    /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_fairview_mansion_mid_levels.png
+  PNG  Annual energy split:/Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_fairview_mansion_mid_levels.png
+
+
+----- STDOUT END -----
+2026-02-15 19:50:21,363 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python src/roi_calculator_finance.py --location fairview_mansion_mid_levels --system-kw 4.0 --annual-load-kwh 3200.0 --profile away_daytime --capex 6000.0 --discount-rate 0.05 --lifetime 25 --degradation 0.005 --om-frac 0.01 --tariffA-import 0.28 --tariffA-export 0.15 --tariffB-peak 0.35 --tariffB-offpeak 0.22 --tariffB-export 0.15 --peak-start 16 --peak-end 19
+2026-02-15 19:50:21,852 | INFO | ----- STDOUT START -----
+
+Loading hourly energy CSV from core step...
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_fairview_mansion_mid_levels.csv
+
+==============================================================================
+Finance Summary — Tariff A (Flat) vs Tariff B (TOU import + flat export)
+==============================================================================
+Location:                 fairview_mansion_mid_levels
+System size:              4.00 kW
+Profile:                  away_daytime
+Annual load (target):     3,200 kWh/year
+
+Annual energy (from hourly CSV):
+  PV generation:          5,122.8 kWh
+  Household load:         3,200.0 kWh
+  Self-consumed PV:       1,115.3 kWh
+  Exported PV:            4,007.4 kWh
+  Grid import with PV:    2,084.7 kWh
+
+Tariff A (flat):
+  Import:                 0.280 £/kWh
+  Export:                 0.150 £/kWh
+  Baseline bill (no PV):  £896.00
+  Bill with PV:           £-17.41
+  Annual savings:         £913.41
+
+Tariff B (TOU import, flat export):
+  Peak import:            0.350 £/kWh
+  Off-peak import:        0.220 £/kWh
+  Export:                 0.150 £/kWh
+  Peak window (UTC):      16:00–19:00  (end is exclusive)
+  Baseline bill (no PV):  £778.27
+  Bill with PV:           £-68.21
+  Annual savings:         £846.49
+
+Lifetime model assumptions:
+  Capex (Year 0):         £-6,000.00 (cashflow)
+  O&M cost:               £60.00 per year
+  PV degradation:         0.50% per year
+  Discount rate:          5.00%
+  Lifetime:               25 years
+
+Lifetime financial metrics (includes capex + O&M; savings degrade with PV):
+  Tariff A payback:       Year 8
+  Tariff B payback:       Year 8
+  Tariff A NPV:           £5,514.28
+  Tariff B NPV:           £4,578.02
+  Tariff A ROI:           236.5%  (ROI = total net cashflow / capex)
+  Tariff B ROI:           208.9%  (ROI = total net cashflow / capex)
+
+Quick comparison:
+  Higher annual savings:  Tariff A
+  Higher NPV:             Tariff A
+==============================================================================
+
+Saved outputs:
+  CSV  Financial summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_fairview_mansion_mid_levels.csv
+  PNG  Cumulative cashflow comparison: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_fairview_mansion_mid_levels.png
+  PNG  Annual cashflow bars:           /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_fairview_mansion_mid_levels.png
+
+
+----- STDOUT END -----
+2026-02-15 19:50:21,854 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/hourly_energy_fairview_mansion_mid_levels.csv -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/outputs/hourly_energy.csv
+2026-02-15 19:50:21,854 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_summary_fairview_mansion_mid_levels.csv -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/outputs/monthly_summary.csv
+2026-02-15 19:50:21,854 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/financial_summary_fairview_mansion_mid_levels.csv -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/outputs/financial_summary.csv
+2026-02-15 19:50:21,854 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/monthly_pv_vs_load_fairview_mansion_mid_levels.png -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/outputs/plots/monthly_pv_vs_load.png
+2026-02-15 19:50:21,855 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/week_timeseries_fairview_mansion_mid_levels.png -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/outputs/plots/week_timeseries.png
+2026-02-15 19:50:21,855 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/energy_split_fairview_mansion_mid_levels.png -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/outputs/plots/energy_split.png
+2026-02-15 19:50:21,855 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/cumulative_cashflow_comparison_fairview_mansion_mid_levels.png -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/outputs/plots/cumulative_cashflow.png
+2026-02-15 19:50:21,855 | INFO | Copied: /Users/jamie/Desktop/Diss/pv-roi-calculator/outputs/annual_cashflow_bars_fairview_mansion_mid_levels.png -> /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/outputs/plots/annual_cashflow_bars.png
+2026-02-15 19:50:21,863 | INFO | Wrote summary: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200/report/summary.md
+2026-02-15 19:50:21,863 | INFO | ✅ Pipeline complete. Run folder: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-15_1950_fairview_mansion_mid_levels_system4kw_load3200

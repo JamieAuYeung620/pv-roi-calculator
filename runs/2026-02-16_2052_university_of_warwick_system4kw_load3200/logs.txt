@@ -1,0 +1,13 @@
+2026-02-16 20:52:57,576 | INFO | Logging started: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-16_2052_university_of_warwick_system4kw_load3200/logs.txt
+2026-02-16 20:52:57,576 | INFO | Run folder created: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-02-16_2052_university_of_warwick_system4kw_load3200
+2026-02-16 20:52:57,576 | INFO | Repo root: /Users/jamie/Desktop/Diss/pv-roi-calculator
+2026-02-16 20:52:57,576 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-02-16 20:52:57,576 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2021 --location university_of_warwick
+2026-02-16 20:52:58,455 | INFO | ----- STDOUT START -----
+ERROR: PVGIS fetch failed.
+Possible causes: PVGIS temporary outage, network/VPN, wrong coordinates.
+Details: HTTPError('startyear: Incorrect value. Please, enter an integer between 2005 and 2020.')
+
+----- STDOUT END -----
+2026-02-16 20:52:58,455 | ERROR | Command failed with return code: 1

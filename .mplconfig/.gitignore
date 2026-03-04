@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+.env
+
+# OS / Editor
+.DS_Store
+.vscode/
+
+# Streamlit
+.streamlit/
+
+# Project artifacts (big + private-ish)
+runs/
+outputs/
+data/cache/
+data/raw_*.csv
+
+# Logs
+*.log

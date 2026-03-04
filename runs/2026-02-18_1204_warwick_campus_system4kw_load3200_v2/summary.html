@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PV ROI Demo Pack — 2026-02-18_1204_warwick_campus_system4kw_load3200_v2</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; line-height: 1.4; }
+    h1, h2 { margin-bottom: 0.2rem; }
+    .meta { color: #444; margin-top: 0; }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0 20px 0; }
+    th, td { border: 1px solid #ddd; padding: 8px; vertical-align: top; }
+    th { background: #f3f3f3; text-align: left; }
+    code { background: #f6f8fa; padding: 2px 4px; border-radius: 4px; }
+    .section { margin-top: 28px; }
+    .small { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1>PV ROI Demo Pack</h1>
+  <p class="meta"><strong>Run ID:</strong> <code>2026-02-18_1204_warwick_campus_system4kw_load3200_v2</code></p>
+  <p class="meta"><strong>Created (local):</strong> <code>2026-02-18T12:04:58</code></p>
+  <p class="meta"><strong>Report generated at:</strong> <code>2026-02-18T12:04:59</code></p>
+
+  <p class="small">
+    This report is standalone inside the run folder. Links and images use <strong>relative paths</strong>.
+  </p>
+
+  <div class="section">
+    <h2>Key metrics (KPIs)</h2>
+    
+        <table>
+          <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td><code>Annual PV generation</code></td><td>3,590 kWh</td></tr>
+<tr><td><code>Annual load</code></td><td>3,200 kWh</td></tr>
+<tr><td><code>Self-consumed PV</code></td><td>1,190 kWh</td></tr>
+<tr><td><code>Exported PV</code></td><td>2,401 kWh</td></tr>
+<tr><td><code>Self-consumption (%)</code></td><td>33.1%</td></tr>
+<tr><td><code>Self-sufficiency (% of load met by PV)</code></td><td>37.2%</td></tr>
+<tr><td><code>Annual savings (Tariff A)</code></td><td>£693.19</td></tr>
+<tr><td><code>Annual savings (Tariff B)</code></td><td>£650.35</td></tr>
+<tr><td><code>Payback (Tariff A)</code></td><td>10.0</td></tr>
+<tr><td><code>Payback (Tariff B)</code></td><td>11.0</td></tr>
+<tr><td><code>NPV (Tariff A)</code></td><td>£2,551.58</td></tr>
+<tr><td><code>NPV (Tariff B)</code></td><td>£1,951.35</td></tr>
+          </tbody>
+        </table>
+        
+  </div>
+
+  <div class="section">
+    <h2>Plots</h2>
+    
+                    <h3>Monthly PV vs Load</h3>
+                    <p><a href="outputs/plots/monthly_pv_vs_load.png">outputs/plots/monthly_pv_vs_load.png</a></p>
+                    <img src="outputs/plots/monthly_pv_vs_load.png" alt="Monthly PV vs Load" style="max-width: 100%; height: auto; border: 1px solid #ddd;"/>
+                    
+                    <h3>Week timeseries</h3>
+                    <p><a href="outputs/plots/week_timeseries.png">outputs/plots/week_timeseries.png</a></p>
+                    <img src="outputs/plots/week_timeseries.png" alt="Week timeseries" style="max-width: 100%; height: auto; border: 1px solid #ddd;"/>
+                    
+                    <h3>Cumulative cashflow</h3>
+                    <p><a href="outputs/plots/cumulative_cashflow.png">outputs/plots/cumulative_cashflow.png</a></p>
+                    <img src="outputs/plots/cumulative_cashflow.png" alt="Cumulative cashflow" style="max-width: 100%; height: auto; border: 1px solid #ddd;"/>
+                    
+  </div>
+
+  <div class="section">
+    <h2>Inputs (full config used)</h2>
+    
+        <table>
+          <thead><tr><th>Config key</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td><code>analysis_window.end</code></td><td>2020-07-31</td></tr>
+<tr><td><code>analysis_window.mode</code></td><td>full_year</td></tr>
+<tr><td><code>analysis_window.start</code></td><td>2020-07-01</td></tr>
+<tr><td><code>finance.capex</code></td><td>6000.0</td></tr>
+<tr><td><code>finance.degradation</code></td><td>0.005</td></tr>
+<tr><td><code>finance.discount_rate</code></td><td>0.05</td></tr>
+<tr><td><code>finance.lifetime_years</code></td><td>25</td></tr>
+<tr><td><code>finance.om_frac</code></td><td>0.01</td></tr>
+<tr><td><code>load.annual_load_kwh</code></td><td>3200.0</td></tr>
+<tr><td><code>load.profile</code></td><td>away_daytime</td></tr>
+<tr><td><code>load.week_days</code></td><td>7</td></tr>
+<tr><td><code>load.week_start</code></td><td>null</td></tr>
+<tr><td><code>location.force_download</code></td><td>False</td></tr>
+<tr><td><code>location.lat</code></td><td>52.384</td></tr>
+<tr><td><code>location.lon</code></td><td>-1.5615</td></tr>
+<tr><td><code>location.name</code></td><td>warwick_campus</td></tr>
+<tr><td><code>location.year</code></td><td>2020</td></tr>
+<tr><td><code>meta.created_at_local</code></td><td>2026-02-18T12:04:58</td></tr>
+<tr><td><code>meta.notes</code></td><td></td></tr>
+<tr><td><code>meta.run_id</code></td><td>2026-02-18_1204_warwick_campus_system4kw_load3200_v2</td></tr>
+<tr><td><code>outputs.export_daily</code></td><td>False</td></tr>
+<tr><td><code>outputs.export_hourly</code></td><td>False</td></tr>
+<tr><td><code>outputs.export_monthly</code></td><td>True</td></tr>
+<tr><td><code>plot_flags.annual_cashflow_bars</code></td><td>False</td></tr>
+<tr><td><code>plot_flags.cumulative_cashflow</code></td><td>True</td></tr>
+<tr><td><code>plot_flags.energy_split</code></td><td>False</td></tr>
+<tr><td><code>plot_flags.monthly_pv_vs_load</code></td><td>True</td></tr>
+<tr><td><code>plot_flags.week_timeseries</code></td><td>True</td></tr>
+<tr><td><code>pv.inverter_ac_kw</code></td><td>null</td></tr>
+<tr><td><code>pv.inverter_eff</code></td><td>0.97</td></tr>
+<tr><td><code>pv.loss_frac</code></td><td>0.14</td></tr>
+<tr><td><code>pv.noct</code></td><td>46.0</td></tr>
+<tr><td><code>pv.system_kw</code></td><td>4.0</td></tr>
+<tr><td><code>pv.temp_coeff</code></td><td>-0.004</td></tr>
+<tr><td><code>tariff_mode</code></td><td>compare</td></tr>
+<tr><td><code>tariffs.peak_end</code></td><td>19</td></tr>
+<tr><td><code>tariffs.peak_start</code></td><td>16</td></tr>
+<tr><td><code>tariffs.tariffA_export</code></td><td>0.15</td></tr>
+<tr><td><code>tariffs.tariffA_import</code></td><td>0.28</td></tr>
+<tr><td><code>tariffs.tariffB_export</code></td><td>0.15</td></tr>
+<tr><td><code>tariffs.tariffB_offpeak</code></td><td>0.22</td></tr>
+<tr><td><code>tariffs.tariffB_peak</code></td><td>0.35</td></tr>
+<tr><td><code>version</code></td><td>2.0</td></tr>
+          </tbody>
+        </table>
+        
+  </div>
+
+  <div class="section">
+    <h2>Generated files</h2>
+    <p>All files in this run folder (relative paths):</p>
+    <ul>
+      <li><a href="config.json">config.json</a></li>
+<li><a href="data/pvgis_request.txt">data/pvgis_request.txt</a></li>
+<li><a href="data/raw_pvgis.csv">data/raw_pvgis.csv</a></li>
+<li><a href="logs.txt">logs.txt</a></li>
+<li><a href="outputs/financial_summary.csv">outputs/financial_summary.csv</a></li>
+<li><a href="outputs/monthly_summary.csv">outputs/monthly_summary.csv</a></li>
+<li><a href="outputs/plots/cumulative_cashflow.png">outputs/plots/cumulative_cashflow.png</a></li>
+<li><a href="outputs/plots/monthly_pv_vs_load.png">outputs/plots/monthly_pv_vs_load.png</a></li>
+<li><a href="outputs/plots/week_timeseries.png">outputs/plots/week_timeseries.png</a></li>
+<li><a href="report/summary.md">report/summary.md</a></li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Data provenance</h2>
+    
+        <p>PV data is sourced from <strong>PVGIS (European Commission JRC)</strong>.</p>
+        <p>Provenance file: <a href="data/pvgis_request.txt">data/pvgis_request.txt</a></p>
+        <pre style="white-space: pre-wrap; background: #f6f8fa; padding: 10px; border: 1px solid #ddd;">Data Source: PVGIS (JRC) — via pvlib.iotools.get_pvgis_hourly
+Timestamp (UTC): 2026-02-18T12:04:58+00:00
+
+PVGIS base URL: https://re.jrc.ec.europa.eu/api/v5_2/
+PVGIS endpoint: hourly time series (via pvlib.get_pvgis_hourly)
+
+Requested parameters:
+- latitude: 52.384
+- longitude: -1.5615
+- start_year: 2020
+- end_year: 2020
+- surface_tilt: 0
+- surface_azimuth: 180
+- components: True
+- pvcalculation: False
+- map_variables: True
+- timeout_seconds: 60
+
+Cache/source used by pipeline: cache:raw_warwick_campus_2020_lat52p384_lonm1p5615.csv
+Data range (UTC): 2020-01-01 00:11:00+00:00 to 2020-12-31 23:11:00+00:00
+
+Repro steps (Python):
+1) pip install pvlib pandas
+2) from pvlib.iotools import get_pvgis_hourly
+3) call get_pvgis_hourly(...) with the parameters above and url=PVGIS base URL</pre>
+        
+  </div>
+
+  <div class="section">
+    <h2>Notes</h2>
+    <p>If present, see <a href="report/summary.md">report/summary.md</a> and <a href="logs.txt">logs.txt</a> for detailed logs.</p>
+  </div>
+</body>
+</html>

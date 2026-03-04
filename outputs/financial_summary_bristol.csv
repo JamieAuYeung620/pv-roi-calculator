@@ -1,0 +1,2 @@
+location,system_kw,annual_load_kwh,profile,tariffA_import,tariffA_export,tariffB_peak,tariffB_offpeak,tariffB_export,annual_pv_kwh,annual_self_consumed_kwh,annual_exported_kwh,annual_savings_tariffA_gbp,annual_savings_tariffB_gbp,payback_year_tariffA,payback_year_tariffB,npv_tariffA,npv_tariffB,roi_tariffA,roi_tariffB
+bristol,4.0,3200.0,away_daytime,0.28,0.15,0.35,0.22,0.15,3728.1183453160083,1198.9578239470393,2529.160521368968,715.0822689105163,673.1174580108695,10.0,10.0,2846.339595199725,2258.5572683095916,1.5861457713106661,1.412664494047934

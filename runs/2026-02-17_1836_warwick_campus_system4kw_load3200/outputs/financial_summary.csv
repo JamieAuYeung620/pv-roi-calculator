@@ -1,0 +1,2 @@
+location,system_kw,annual_load_kwh,profile,tariffA_import,tariffA_export,annual_pv_kwh,annual_self_consumed_kwh,annual_exported_kwh,annual_savings_gbp,payback_year,npv,roi,tariff_mode
+warwick_campus,4.0,3200.0,away_daytime,0.28,0.15,3561.4580997594257,1186.9980512963766,2374.4600484630487,688.5284616324427,10.0,2488.574771629888,1.4816263457661023,A
