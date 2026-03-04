@@ -644,7 +644,7 @@ def render_sidebar_inputs_original() -> None:
     st.checkbox("Export hourly CSV", key="export_hourly")
     st.checkbox("Export daily CSV", key="export_daily")
     st.checkbox("Export monthly CSV", key="export_monthly")
-    st.markdown("### Confidence & realism (recommended)")
+    st.markdown("### Comparative analysis (recommended)")
     st.checkbox(
         "Run model sanity checks (recommended)",
         key="enable_verification_checks",
@@ -758,7 +758,7 @@ def render_sidebar_inputs_compact() -> None:
         st.checkbox("Export daily CSV", key="export_daily")
         st.checkbox("Export monthly CSV", key="export_monthly")
 
-    with st.expander("Confidence & realism (recommended)", expanded=False):
+    with st.expander("Comparative analysis (recommended)", expanded=False):
         st.checkbox(
             "Run model sanity checks (recommended)",
             key="enable_verification_checks",
@@ -900,7 +900,7 @@ with controls_area:
                 st.checkbox("Export daily CSV", key="export_daily")
                 st.checkbox("Export monthly CSV", key="export_monthly")
 
-            with st.expander("Confidence & realism (recommended)", expanded=False):
+            with st.expander("Comparative analysis (recommended)", expanded=False):
                 st.checkbox(
                     "Run model sanity checks (recommended)",
                     key="enable_verification_checks",
@@ -1041,7 +1041,7 @@ if not summary_html.exists():
 st.subheader("Run Folder Path (Advanced)")
 st.text_input("Copy path", value=str(run_dir), disabled=False)
 
-tabs = st.tabs(["Overview", "Confidence", "Charts", "Data Tables", "Run Files"])
+tabs = st.tabs(["Overview", "Comparative analysis", "Charts", "Data Tables", "Run Files"])
 
 with tabs[0]:
     st.subheader("Key Performance Indicators")
@@ -1179,7 +1179,7 @@ with tabs[0]:
         st.info("report/summary.md not found.")
 
 with tabs[1]:
-    st.subheader("Confidence")
+    st.subheader("Comparative analysis")
     run_cfg = {}
     try:
         run_cfg = json.loads((run_dir / "config.json").read_text(encoding="utf-8"))
