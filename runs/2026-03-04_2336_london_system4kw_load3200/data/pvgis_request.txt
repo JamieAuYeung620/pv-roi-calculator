@@ -1,0 +1,25 @@
+Data Source: PVGIS (JRC) — via pvlib.iotools.get_pvgis_hourly
+Timestamp (UTC): 2026-03-04T23:36:19+00:00
+
+PVGIS base URL: https://re.jrc.ec.europa.eu/api/v5_3/
+PVGIS endpoint: hourly time series (via pvlib.get_pvgis_hourly)
+
+Requested parameters:
+- latitude: 51.5074
+- longitude: -0.1278
+- start_year: 2020
+- end_year: 2020
+- surface_tilt_deg: 0.0
+- surface_azimuth_deg: 180.0
+- components: True
+- pvcalculation: False
+- map_variables: True
+- timeout_seconds: 60
+
+Cache/source used by pipeline: downloaded:raw_london_2020_lat51p5074_lonm0p1278_tilt0_az180.csv
+Data range (UTC): 2020-01-01 00:10:00+00:00 to 2020-12-31 23:10:00+00:00
+
+Repro steps (Python):
+1) pip install pvlib pandas
+2) from pvlib.iotools import get_pvgis_hourly
+3) call get_pvgis_hourly(...) with the parameters above and url=PVGIS base URL

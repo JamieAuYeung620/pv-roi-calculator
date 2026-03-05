@@ -1,0 +1,73 @@
+{
+  "analysis_window": {
+    "end": "2020-12-31",
+    "mode": "full_year",
+    "start": "2020-01-01"
+  },
+  "finance": {
+    "capex": 6000.0,
+    "degradation": 0.005,
+    "discount_rate": 0.05,
+    "lifetime_years": 15,
+    "om_frac": 0.01,
+    "salvage_value_gbp": 0.0
+  },
+  "load": {
+    "annual_load_kwh": 3200.0,
+    "profile": "away_daytime",
+    "seasonal_variance_pct": 30,
+    "week_days": 7,
+    "week_start": null
+  },
+  "location": {
+    "force_download": true,
+    "lat": 55.9533,
+    "lon": -3.1883,
+    "name": "edinburgh",
+    "year": 2020
+  },
+  "meta": {
+    "created_at_local": "2026-03-04T23:20:21",
+    "notes": "",
+    "run_id": "2026-03-04_2320_edinburgh_system4kw_load3200"
+  },
+  "outputs": {
+    "enable_pvgis_crosscheck": true,
+    "enable_variability": true,
+    "enable_verification_checks": true,
+    "export_daily": false,
+    "export_hourly": false,
+    "export_monthly": true,
+    "variability_year_end": 2023,
+    "variability_year_start": 2019
+  },
+  "plot_flags": {
+    "annual_cashflow_bars": true,
+    "cumulative_cashflow": true,
+    "energy_split": true,
+    "monthly_pv_vs_load": true,
+    "week_timeseries": true
+  },
+  "pv": {
+    "inverter_ac_kw": null,
+    "inverter_eff": 1.0,
+    "loss_frac": 0.14,
+    "noct": 40.0,
+    "surface_azimuth_deg": 180.0,
+    "surface_tilt_deg": 0.0,
+    "system_kw": 4.0,
+    "temp_coeff": -0.004
+  },
+  "tariff_mode": "compare",
+  "tariffs": {
+    "peak_end": 19,
+    "peak_start": 16,
+    "tariffA_export": 0.15,
+    "tariffA_import": 0.28,
+    "tariffB_export": 0.15,
+    "tariffB_offpeak": 0.22,
+    "tariffB_peak": 0.35,
+    "tariffC_export": 0.05
+  },
+  "version": "2.0"
+}
