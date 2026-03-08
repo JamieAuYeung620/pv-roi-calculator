@@ -1,0 +1,6 @@
+2026-03-08 01:53:30,769 | INFO | Logging started: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-08_0153_university_of_warwick_system4kw_load3200/logs.txt
+2026-03-08 01:53:30,769 | INFO | Run folder created: /Users/jamie/Desktop/Diss/pv-roi-calculator/runs/2026-03-08_0153_university_of_warwick_system4kw_load3200
+2026-03-08 01:53:30,769 | INFO | Repo root: /Users/jamie/Desktop/Diss/pv-roi-calculator
+2026-03-08 01:53:30,770 | INFO | PVGIS: Attempting PVGIS fetch via src/pvgis_pipeline.py ...
+2026-03-08 01:53:30,770 | INFO | Running command:
+  /Users/jamie/Desktop/Diss/pv-roi-calculator/.venv/bin/python3 src/pvgis_pipeline.py --lat 52.384 --lon -1.5615 --year 2020 --surface-tilt 30.0 --surface-azimuth 180.0 --location university_of_warwick --force
