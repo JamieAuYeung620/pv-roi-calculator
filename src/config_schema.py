@@ -99,6 +99,18 @@ class FinanceConfig:
 
 
 @dataclass
+class SensitivityConfig:
+    """
+    Optional one-at-a-time sensitivity analysis settings.
+    If value lists are omitted, the backend applies dissertation-friendly defaults.
+    """
+    enabled: bool = False
+    capex_values: list[float] | None = None
+    discount_rate_values: list[float] | None = None
+    tariff_multipliers: list[float] | None = None
+
+
+@dataclass
 class AnalysisWindowConfig:
     """
     Controls date filtering for:
@@ -162,6 +174,7 @@ class PVROIRunConfig:
     load: LoadConfig = field(default_factory=LoadConfig)
     tariffs: TariffConfig = field(default_factory=TariffConfig)
     finance: FinanceConfig = field(default_factory=FinanceConfig)
+    sensitivity: SensitivityConfig = field(default_factory=SensitivityConfig)
 
     # NEW: explicit export toggles
     outputs: OutputConfig = field(default_factory=OutputConfig)
@@ -195,6 +208,7 @@ class PVROIRunConfig:
         load = LoadConfig(**cls._filtered_kwargs(LoadConfig, data.get("load", {}) or {}))
         tariffs = TariffConfig(**cls._filtered_kwargs(TariffConfig, data.get("tariffs", {}) or {}))
         finance = FinanceConfig(**cls._filtered_kwargs(FinanceConfig, data.get("finance", {}) or {}))
+        sensitivity = SensitivityConfig(**cls._filtered_kwargs(SensitivityConfig, data.get("sensitivity", {}) or {}))
         outputs = OutputConfig(**cls._filtered_kwargs(OutputConfig, data.get("outputs", {}) or {}))
         plot_flags = PlotFlags(**cls._filtered_kwargs(PlotFlags, data.get("plot_flags", {}) or {}))
         analysis_window = AnalysisWindowConfig(**cls._filtered_kwargs(AnalysisWindowConfig, data.get("analysis_window", {}) or {}))
@@ -221,6 +235,7 @@ class PVROIRunConfig:
             load=load,
             tariffs=tariffs,
             finance=finance,
+            sensitivity=sensitivity,
             outputs=outputs,
             plot_flags=plot_flags,
         )
@@ -306,6 +321,39 @@ def validate_config(cfg: PVROIRunConfig) -> None:
         errors.append("finance.degradation must be between 0 and 0.03 (e.g., 0.005).")
     if not (0.0 <= cfg.finance.om_frac <= 0.05):
         errors.append("finance.om_frac must be between 0 and 0.05 (e.g., 0.01).")
+
+    # Sensitivity analysis
+    if cfg.sensitivity.enabled:
+        sweep_specs = [
+            ("sensitivity.capex_values", cfg.sensitivity.capex_values, lambda v: v > 0.0, "must be > 0."),
+            (
+                "sensitivity.discount_rate_values",
+                cfg.sensitivity.discount_rate_values,
+                lambda v: v >= 0.0,
+                "must be >= 0.",
+            ),
+            (
+                "sensitivity.tariff_multipliers",
+                cfg.sensitivity.tariff_multipliers,
+                lambda v: v > 0.0,
+                "must be > 0.",
+            ),
+        ]
+        for name, values, predicate, msg in sweep_specs:
+            if values is None:
+                continue
+            if len(values) == 0:
+                errors.append(f"{name} must not be empty when sensitivity is enabled.")
+                continue
+            for value in values:
+                try:
+                    numeric = float(value)
+                except Exception:
+                    errors.append(f"{name} entries must be numeric.")
+                    break
+                if not predicate(numeric):
+                    errors.append(f"{name} {msg}")
+                    break
 
     # Analysis window
     if cfg.analysis_window.mode not in {"full_year", "custom"}:

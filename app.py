@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 from math import floor, log10
@@ -57,6 +58,7 @@ def ensure_sensible_input_defaults(defaults: dict) -> None:
         "tariffA_import", "tariffA_export", "tariffB_peak", "tariffB_offpeak", "tariffB_export", "tariffC_export",
         "capex", "discount_rate_pct", "lifetime_years", "degradation", "om_frac_pct",
         "orientation", "profile", "location_name", "location_preset", "tariff_mode",
+        "sensitivity_capex_values_text", "sensitivity_discount_rate_values_text", "sensitivity_tariff_multipliers_text",
     ]
     for k in guarded_keys:
         if k not in defaults:
@@ -144,6 +146,21 @@ def safe_read_csv(path: Path) -> pd.DataFrame | None:
     except Exception:
         return None
     return None
+
+
+def _parse_float_list_input(text: str) -> list[float] | None:
+    raw = str(text or "").strip()
+    if not raw:
+        return None
+
+    parts = [part.strip() for part in re.split(r"[\n,;]+", raw) if part.strip()]
+    if not parts:
+        return None
+
+    values: list[float] = []
+    for part in parts:
+        values.append(float(part))
+    return values
 
 
 def _fmt_sig(x: float, sf: int = 3) -> str:
@@ -275,6 +292,16 @@ def build_cfg_from_state() -> PVROIRunConfig:
             "om_frac": float(st.session_state["om_frac"]),
             "salvage_value_gbp": float(st.session_state["salvage_value_gbp"]),
         },
+        "sensitivity": {
+            "enabled": bool(st.session_state.get("enable_sensitivity", False)),
+            "capex_values": _parse_float_list_input(st.session_state.get("sensitivity_capex_values_text", "")),
+            "discount_rate_values": _parse_float_list_input(
+                st.session_state.get("sensitivity_discount_rate_values_text", "")
+            ),
+            "tariff_multipliers": _parse_float_list_input(
+                st.session_state.get("sensitivity_tariff_multipliers_text", "")
+            ),
+        },
         "outputs": {
             "export_hourly": bool(st.session_state["export_hourly"]),
             "export_daily": bool(st.session_state["export_daily"]),
@@ -316,6 +343,42 @@ def validate_ui_inputs() -> list[str]:
             errs.append("End year must be between 2005 and 2023.")
         if vy_end < vy_start:
             errs.append("End year must be greater than or equal to start year.")
+    if bool(st.session_state.get("enable_sensitivity", False)):
+        sensitivity_specs = [
+            (
+                "sensitivity_capex_values_text",
+                "Sensitivity CAPEX values",
+                lambda value: value > 0.0,
+                "must be > 0.",
+            ),
+            (
+                "sensitivity_discount_rate_values_text",
+                "Sensitivity discount-rate values",
+                lambda value: value >= 0.0,
+                "must be >= 0.",
+            ),
+            (
+                "sensitivity_tariff_multipliers_text",
+                "Sensitivity tariff multipliers",
+                lambda value: value > 0.0,
+                "must be > 0.",
+            ),
+        ]
+        for key, label, predicate, rule_msg in sensitivity_specs:
+            raw = st.session_state.get(key, "")
+            try:
+                values = _parse_float_list_input(raw)
+            except Exception:
+                errs.append(f"{label} must be a comma-separated list of numbers.")
+                continue
+            if values is None:
+                continue
+            if len(values) == 0:
+                errs.append(f"{label} must not be empty.")
+                continue
+            bad_values = [value for value in values if not predicate(float(value))]
+            if bad_values:
+                errs.append(f"{label} {rule_msg}")
 
     if float(st.session_state["system_kw"]) <= 0:
         errs.append("PV system size (kWp) must be > 0.")
@@ -410,6 +473,10 @@ defaults = {
     "enable_variability": False,
     "variability_year_start": 2022,
     "variability_year_end": 2023,
+    "enable_sensitivity": False,
+    "sensitivity_capex_values_text": "4000, 5000, 6000, 7000, 8000",
+    "sensitivity_discount_rate_values_text": "0.02, 0.03, 0.05, 0.07, 0.10",
+    "sensitivity_tariff_multipliers_text": "0.80, 0.90, 1.00, 1.10, 1.20",
     "enable_verification_checks": True,
     "enable_pvgis_crosscheck": False,
 
@@ -544,6 +611,29 @@ def render_location_selector_block() -> None:
         st.caption(f"Preset coordinates: lat {p['lat']:.4f}, lon {p['lon']:.4f}")
 
 
+def render_sensitivity_controls() -> None:
+    st.checkbox(
+        "Enable sensitivity analysis",
+        key="enable_sensitivity",
+        help="Runs one-variable-at-a-time sweeps around the baseline assumptions after the main run completes.",
+    )
+    st.caption("Sensitivity analysis changes one assumption at a time while keeping weather, PV size, and load fixed.")
+    if st.session_state.get("enable_sensitivity", False):
+        st.text_input(
+            "CAPEX values (£), comma-separated",
+            key="sensitivity_capex_values_text",
+        )
+        st.text_input(
+            "Discount-rate values (fractions), comma-separated",
+            key="sensitivity_discount_rate_values_text",
+        )
+        st.text_input(
+            "Tariff A multipliers, comma-separated",
+            key="sensitivity_tariff_multipliers_text",
+        )
+        st.caption("Blank fields fall back to the built-in defaults.")
+
+
 def render_chart_settings_block(show_heading: bool = True) -> None:
     if show_heading:
         st.markdown("### Chart Settings")
@@ -655,6 +745,8 @@ def render_sidebar_inputs_original() -> None:
         key="enable_pvgis_crosscheck",
         help="Cross-checks monthly PV output against PVGIS’s built-in PV calculation.",
     )
+    st.markdown("#### Sensitivity analysis")
+    render_sensitivity_controls()
     st.divider()
     st.checkbox("Enable historical variability (multi-year)", key="enable_variability")
     vcols = st.columns(2)
@@ -769,6 +861,8 @@ def render_sidebar_inputs_compact() -> None:
             key="enable_pvgis_crosscheck",
             help="Cross-checks monthly PV output against PVGIS’s built-in PV calculation.",
         )
+        st.markdown("#### Sensitivity analysis")
+        render_sensitivity_controls()
         st.checkbox("Enable historical variability (multi-year)", key="enable_variability")
         vcols = st.columns(2)
         with vcols[0]:
@@ -911,6 +1005,8 @@ with controls_area:
                     key="enable_pvgis_crosscheck",
                     help="Cross-checks monthly PV output against PVGIS’s built-in PV calculation.",
                 )
+                st.markdown("#### Sensitivity analysis")
+                render_sensitivity_controls()
                 st.checkbox("Enable historical variability (multi-year)", key="enable_variability")
                 vcols = st.columns(2)
                 with vcols[0]:
@@ -1186,6 +1282,7 @@ with tabs[1]:
     except Exception:
         run_cfg = {}
     outputs_cfg = run_cfg.get("outputs") or {}
+    sensitivity_cfg = run_cfg.get("sensitivity") or {}
 
     ver_path = run_dir / "outputs" / "verification_checks.csv"
     ver_df = safe_read_csv(ver_path)
@@ -1202,6 +1299,10 @@ with tabs[1]:
     var_plot_hist = run_dir / "outputs" / "variability_annual_savings_hist.png"
     var_status = run_dir / "outputs" / "variability_status.txt"
     var_summary = safe_read_csv(var_summary_path)
+    sensitivity_summary_path = run_dir / "sensitivity" / "sensitivity_summary.csv"
+    sensitivity_plot_path = run_dir / "sensitivity" / "sensitivity_payback_npv.png"
+    sensitivity_status_path = run_dir / "sensitivity" / "sensitivity_status.txt"
+    sensitivity_summary = safe_read_csv(sensitivity_summary_path)
 
     selected_var_row = None
     if var_summary is not None and not var_summary.empty and "metric" in var_summary.columns:
@@ -1269,6 +1370,33 @@ with tabs[1]:
             else:
                 st.info("Turn on 'Model sanity checks' to confirm the energy accounting is consistent.")
 
+    st.markdown("### One-at-a-time sensitivity")
+    if bool(sensitivity_cfg.get("enabled", False)):
+        st.caption(
+            "This analysis changes one assumption at a time around the baseline case while keeping the other "
+            "inputs fixed. It is separate from historical weather variability."
+        )
+        if sensitivity_plot_path.exists():
+            st.image(str(sensitivity_plot_path), use_container_width=True)
+            st.caption("NPV and simple payback for CAPEX, discount rate, and Tariff A multiplier sweeps.")
+        elif sensitivity_status_path.exists():
+            st.warning(
+                "Sensitivity analysis could not complete for this run. The baseline calculation is still valid."
+            )
+        else:
+            st.info("Sensitivity outputs were expected, but are not available for this run.")
+
+        if sensitivity_summary is not None and not sensitivity_summary.empty:
+            with st.expander("Show sensitivity summary table", expanded=False):
+                st.dataframe(_display_df(sensitivity_summary), use_container_width=True)
+        elif sensitivity_status_path.exists():
+            with st.expander("Sensitivity status", expanded=False):
+                st.code(sensitivity_status_path.read_text(encoding="utf-8"))
+    else:
+        st.info(
+            "Turn on 'Sensitivity analysis' to sweep CAPEX, discount rate, and Tariff A assumptions one variable at a time."
+        )
+
     st.markdown("### How to read this")
     st.markdown("- Typical year = middle of historical years")
     st.markdown("- 10th percentile = only 10% of years were worse (cloudier)")
@@ -1335,12 +1463,21 @@ with tabs[1]:
         else:
             st.caption("variability_yearly.csv not available.")
 
+        st.write("**Sensitivity summary table (raw)**")
+        if sensitivity_summary is not None and not sensitivity_summary.empty:
+            st.dataframe(_display_df(sensitivity_summary), use_container_width=True)
+        else:
+            st.caption("sensitivity_summary.csv not available.")
+
         if cross_status.exists():
             st.write("**PVGIS cross-check status**")
             st.code(cross_status.read_text(encoding="utf-8"))
         if var_status.exists():
             st.write("**Variability status**")
             st.code(var_status.read_text(encoding="utf-8"))
+        if sensitivity_status_path.exists():
+            st.write("**Sensitivity analysis status**")
+            st.code(sensitivity_status_path.read_text(encoding="utf-8"))
 
 with tabs[2]:
     st.subheader("Charts")
@@ -1500,6 +1637,22 @@ with tabs[2]:
             st.image(str(p), use_container_width=True)
             _png_download(p, "dl_png_annual_bars")
 
+    sensitivity_plot = run_dir / "sensitivity" / "sensitivity_payback_npv.png"
+    if sensitivity_plot.exists():
+        shown = True
+        st.write("**Sensitivity analysis**")
+        st.image(str(sensitivity_plot), use_container_width=True)
+        _png_download(sensitivity_plot, "dl_png_sensitivity_combined")
+        with st.expander("Show individual sensitivity plots", expanded=False):
+            for extra_plot in [
+                run_dir / "sensitivity" / "sensitivity_capex.png",
+                run_dir / "sensitivity" / "sensitivity_discount_rate.png",
+                run_dir / "sensitivity" / "sensitivity_tariff.png",
+            ]:
+                if extra_plot.exists():
+                    st.image(str(extra_plot), use_container_width=True)
+                    _png_download(extra_plot, f"dl_png_{extra_plot.stem}")
+
     if not shown:
         st.info("No plots found for this run (maybe disabled by plot flags).")
 
@@ -1537,6 +1690,22 @@ with tabs[3]:
             st.dataframe(_display_df(df.head(50)), use_container_width=True)
         else:
             st.caption(f"{label}: not available")
+
+    sensitivity_table_path = run_dir / "sensitivity" / "sensitivity_summary.csv"
+    sensitivity_df = safe_read_csv(sensitivity_table_path)
+    if sensitivity_df is not None and not sensitivity_df.empty:
+        st.write("**sensitivity_summary.csv**")
+        st.download_button(
+            "Download sensitivity summary CSV",
+            data=sensitivity_table_path.read_bytes(),
+            file_name=sensitivity_table_path.name,
+            mime="text/csv",
+            key="dl_csv_sensitivity_summary",
+            use_container_width=False,
+        )
+        st.dataframe(_display_df(sensitivity_df.head(50)), use_container_width=True)
+    else:
+        st.caption("sensitivity_summary.csv: not available")
 
     st.subheader("Details")
     hourly_path = run_dir / "outputs" / "hourly.csv"

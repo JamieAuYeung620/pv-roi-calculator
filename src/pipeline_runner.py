@@ -41,6 +41,7 @@ from step3_confidence import (
     plot_annual_savings_vs_year,
     plot_histogram,
 )
+from sensitivity_analysis import run_sensitivity_analysis
 
 
 
@@ -1010,6 +1011,18 @@ def write_summary_md(
         lines.append("- Variability run: attempted but failed (see outputs/variability_status.txt).")
     else:
         lines.append("- Variability run: not enabled.")
+
+    sensitivity_summary = run_dir / "sensitivity" / "sensitivity_summary.csv"
+    if sensitivity_summary.exists():
+        try:
+            sdf = pd.read_csv(sensitivity_summary)
+            lines.append(f"- Sensitivity analysis: available ({len(sdf)} scenarios). See sensitivity/sensitivity_summary.csv.")
+        except Exception:
+            lines.append("- Sensitivity analysis: available (could not parse summary).")
+    elif (run_dir / "sensitivity" / "sensitivity_status.txt").exists():
+        lines.append("- Sensitivity analysis: attempted but failed (see sensitivity/sensitivity_status.txt).")
+    else:
+        lines.append("- Sensitivity analysis: not enabled.")
     lines.append("")
 
     lines.append("## Output files in this run folder\n")
@@ -1576,6 +1589,27 @@ def run_pipeline(cfg: PVROIRunConfig) -> Path:
             status_path = out_dir / "variability_status.txt"
             status_path.write_text(str(e) + "\n", encoding="utf-8")
             outputs_written["variability_status.txt"] = status_path
+
+    if bool(cfg.sensitivity.enabled):
+        logger.info("Sensitivity analysis enabled.")
+        try:
+            sensitivity_result = run_sensitivity_analysis(
+                baseline_cfg=cfg,
+                baseline_run_dir=run_dir,
+                logger=logger,
+            )
+            outputs_written["sensitivity_summary.csv"] = sensitivity_result.summary_csv
+            plots_written["sensitivity_capex.png"] = sensitivity_result.capex_plot
+            plots_written["sensitivity_discount_rate.png"] = sensitivity_result.discount_rate_plot
+            plots_written["sensitivity_tariff.png"] = sensitivity_result.tariff_plot
+            plots_written["sensitivity_payback_npv.png"] = sensitivity_result.combined_plot
+        except Exception as e:
+            logger.warning("Sensitivity analysis failed but base run will continue: %s", repr(e))
+            sensitivity_dir = run_dir / "sensitivity"
+            sensitivity_dir.mkdir(parents=True, exist_ok=True)
+            status_path = sensitivity_dir / "sensitivity_status.txt"
+            status_path.write_text(str(e) + "\n", encoding="utf-8")
+            outputs_written["sensitivity_status.txt"] = status_path
 
     # 7) Write summary.md (must include toggles used)
     summary_path = write_summary_md(
