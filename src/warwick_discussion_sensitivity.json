@@ -1,0 +1,78 @@
+{
+  "version": "2.0",
+  "meta": {
+    "run_id": "warwick_4kw_3500kwh_2020_discussion_sensitivity",
+    "notes": "Controlled one-variable-at-a-time sensitivity sweep for dissertation Chapter 5."
+  },
+  "tariff_mode": "A",
+  "analysis_window": {
+    "mode": "full_year",
+    "start": "2020-01-01",
+    "end": "2020-12-31"
+  },
+  "location": {
+    "name": "warwick_campus",
+    "lat": 52.384,
+    "lon": -1.5615,
+    "year": 2020,
+    "force_download": true
+  },
+  "pv": {
+    "system_kw": 4.0,
+    "temp_coeff": -0.004,
+    "loss_frac": 0.14,
+    "inverter_eff": 0.96,
+    "noct": 45.0,
+    "surface_tilt_deg": 30.0,
+    "surface_azimuth_deg": 180.0,
+    "inverter_ac_kw": null
+  },
+  "load": {
+    "annual_load_kwh": 3500.0,
+    "profile": "away_daytime",
+    "seasonal_variance_pct": 30,
+    "week_start": "2020-06-01",
+    "week_days": 7
+  },
+  "tariffs": {
+    "tariffA_import": 0.28,
+    "tariffA_export": 0.15,
+    "tariffB_peak": 0.35,
+    "tariffB_offpeak": 0.22,
+    "tariffB_export": 0.15,
+    "tariffC_export": 0.05,
+    "peak_start": 16,
+    "peak_end": 19
+  },
+  "finance": {
+    "capex": 6000.0,
+    "discount_rate": 0.05,
+    "lifetime_years": 25,
+    "degradation": 0.005,
+    "om_frac": 0.01,
+    "salvage_value_gbp": 0.0
+  },
+  "sensitivity": {
+    "enabled": true,
+    "capex_values": [4000.0, 5000.0, 6000.0, 7000.0, 8000.0],
+    "discount_rate_values": [0.02, 0.03, 0.05, 0.07, 0.1],
+    "tariff_multipliers": [0.8, 0.9, 1.0, 1.1, 1.2]
+  },
+  "outputs": {
+    "export_hourly": true,
+    "export_daily": false,
+    "export_monthly": true,
+    "enable_variability": false,
+    "variability_year_start": 2005,
+    "variability_year_end": 2023,
+    "enable_verification_checks": true,
+    "enable_pvgis_crosscheck": true
+  },
+  "plot_flags": {
+    "monthly_pv_vs_load": true,
+    "week_timeseries": true,
+    "energy_split": true,
+    "cumulative_cashflow": true,
+    "annual_cashflow_bars": true
+  }
+}

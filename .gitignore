@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+
+# Python caches and local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local app/runtime state
+.streamlit/
+.mplconfig/
+
+# Build artifacts
+build/
+dist/
+
+# Generated project outputs
+outputs/
+runs/
+data/
+
+# Keep source-controlled code and configs; ignore generated caches under source/test trees
+src/__pycache__/
+tests/__pycache__/
