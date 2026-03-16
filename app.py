@@ -26,6 +26,7 @@ from pipeline_runner import (  # noqa: E402
 from run_manager import slugify  # noqa: E402
 from run_history import list_recent_runs, format_run_label  # noqa: E402
 from report_generator import generate_run_report  # noqa: E402
+from load_model import DEFAULT_PROFILE, EMPIRICAL_PROFILE_IDS, PROFILE_LABELS, resolve_profile_alias  # noqa: E402
 
 
 # ---------------------------
@@ -138,6 +139,13 @@ def apply_location_preset() -> None:
         st.session_state["lon"] = float(preset["lon"])
 
 
+def normalize_profile_session_state() -> None:
+    try:
+        st.session_state["profile"] = resolve_profile_alias(st.session_state.get("profile", DEFAULT_PROFILE))
+    except Exception:
+        st.session_state["profile"] = DEFAULT_PROFILE
+
+
 def safe_read_csv(path: Path) -> pd.DataFrame | None:
     try:
         if path.exists():
@@ -243,7 +251,7 @@ def build_cfg_from_state() -> PVROIRunConfig:
 
     cfg_dict = {
         "version": "2.0",
-        "meta": {"notes": st.session_state.get("run_notes", "")},
+        "meta": {"notes": ""},
         "tariff_mode": st.session_state["tariff_mode"],
         "analysis_window": {
             "mode": "full_year",
@@ -269,7 +277,7 @@ def build_cfg_from_state() -> PVROIRunConfig:
         },
         "load": {
             "annual_load_kwh": float(st.session_state["annual_load_kwh"]),
-            "profile": st.session_state["profile"],
+            "profile": resolve_profile_alias(st.session_state["profile"]),
             "seasonal_variance_pct": int(st.session_state["seasonal_variance_pct"]),
             "week_start": None,
             "week_days": 7,
@@ -389,8 +397,10 @@ def validate_ui_inputs() -> list[str]:
         errs.append("Panel azimuth (°) must be between 0 and 360.")
     if float(st.session_state["annual_load_kwh"]) <= 0:
         errs.append("Annual load must be > 0 kWh/year.")
-    if not (20 <= int(st.session_state["seasonal_variance_pct"]) <= 40):
-        errs.append("Seasonal demand swing must be between 20 and 40%.")
+    try:
+        resolve_profile_alias(st.session_state["profile"])
+    except Exception:
+        errs.append("Please choose a valid household load archetype.")
 
     # Peak window sanity (allow wrap-around, but warn if equal)
     ps = int(st.session_state["peak_start"])
@@ -433,7 +443,7 @@ defaults = {
     "inverter_ac_kw": 0.0,
 
     "annual_load_kwh": 3200.0,
-    "profile": "away_daytime",
+    "profile": DEFAULT_PROFILE,
     "seasonal_variance_pct": 30,
     "week_days": 7,
     "chart_monthly_month_range": (1, 12),
@@ -486,7 +496,6 @@ defaults = {
     "plot_cum": True,
     "plot_bars": False,
 
-    "run_notes": "",
     "debug_mode": False,
 
     "last_run_dir": "",
@@ -496,6 +505,7 @@ defaults = {
     "compact_sidebar_sections": True,
 }
 init_state(defaults)
+normalize_profile_session_state()
 if "loss_frac_pct" not in st.session_state:
     st.session_state["loss_frac_pct"] = int(round(float(st.session_state["loss_frac"]) * 100))
 st.session_state["loss_frac"] = float(st.session_state["loss_frac_pct"]) / 100.0
@@ -653,6 +663,26 @@ def render_chart_settings_block(show_heading: bool = True) -> None:
         st.checkbox("Show: Annual cashflow bars", key="chart_show_annual_bars")
 
 
+def render_home_electricity_use_inputs() -> None:
+    required_label("Annual household electricity use (kWh/year)")
+    st.number_input(
+        "Annual household electricity use (kWh/year)",
+        min_value=100.0,
+        max_value=30000.0,
+        step=100.0,
+        key="annual_load_kwh",
+        label_visibility="collapsed",
+    )
+    st.selectbox(
+        "Household load archetype",
+        options=list(EMPIRICAL_PROFILE_IDS),
+        key="profile",
+        format_func=lambda value: PROFILE_LABELS.get(value, value),
+    )
+    st.caption("This uses the repo's versioned UK household load-archetype dataset and then scales it to your annual electricity demand.")
+    st.caption("Week plot length is fixed at 7 days.")
+
+
 # === ORIGINAL SIDEBAR LAYOUT (BEGIN) ===
 def render_sidebar_inputs_original() -> None:
     st.subheader("Inputs")
@@ -686,18 +716,7 @@ def render_sidebar_inputs_original() -> None:
         )
 
     st.divider()
-    required_label("Annual household electricity use (kWh/year)")
-    st.number_input("Annual household electricity use (kWh/year)", min_value=100.0, max_value=30000.0, step=100.0, key="annual_load_kwh", label_visibility="collapsed")
-    st.selectbox("Load profile", options=["away_daytime", "home_daytime"], key="profile")
-    st.slider(
-        "Seasonal demand swing (Dec vs Jun) (%)",
-        min_value=20,
-        max_value=40,
-        value=30,
-        step=1,
-        key="seasonal_variance_pct",
-    )
-    st.caption("Week plot length is fixed at 7 days.")
+    render_home_electricity_use_inputs()
 
     st.divider()
     st.radio(
@@ -766,7 +785,6 @@ def render_sidebar_inputs_original() -> None:
             step=1,
             key="variability_year_end",
         )
-    st.text_input("Run notes (optional)", key="run_notes")
 # === ORIGINAL SIDEBAR LAYOUT (END) ===
 
 
@@ -803,18 +821,7 @@ def render_sidebar_inputs_compact() -> None:
             )
 
     with st.expander("Home electricity use", expanded=False):
-        required_label("Annual household electricity use (kWh/year)")
-        st.number_input("Annual household electricity use (kWh/year)", min_value=100.0, max_value=30000.0, step=100.0, key="annual_load_kwh", label_visibility="collapsed")
-        st.selectbox("Load profile", options=["away_daytime", "home_daytime"], key="profile")
-        st.slider(
-            "Seasonal demand swing (Dec vs Jun) (%)",
-            min_value=20,
-            max_value=40,
-            value=30,
-            step=1,
-            key="seasonal_variance_pct",
-        )
-        st.caption("Week plot length is fixed at 7 days.")
+        render_home_electricity_use_inputs()
 
     with st.expander("Tariffs", expanded=False):
         st.radio(
@@ -881,7 +888,6 @@ def render_sidebar_inputs_compact() -> None:
                 step=1,
                 key="variability_year_end",
             )
-        st.text_input("Run notes (optional)", key="run_notes")
 # === COMPACT SIDEBAR LAYOUT (END) ===
 
 with controls_area:
@@ -919,115 +925,133 @@ with controls_area:
     else:
         st.subheader("Inputs")
         st.caption("* Required fields are marked with a red star.")
-        with st.form("inputs_form"):
-            with st.expander("Location & time", expanded=False):
-                required_label("Location name (for filenames)")
-                st.text_input("Location name (for filenames)", key="location_name", label_visibility="collapsed")
-                st.number_input("Year", min_value=2005, max_value=2023, step=1, key="year")
-                st.caption("Available range: 2005–2023 (PVGIS 5.3 model).")
+        # Use normal widgets here so conditional controls (for example sensitivity
+        # inputs and tariff-specific fields) appear immediately instead of waiting
+        # for a form submission rerun.
+        with st.expander("Location & time", expanded=False):
+            required_label("Location name (for filenames)")
+            st.text_input("Location name (for filenames)", key="location_name", label_visibility="collapsed")
+            st.number_input("Year", min_value=2005, max_value=2023, step=1, key="year")
+            st.caption("Available range: 2005–2023 (PVGIS 5.3 model).")
 
-            with st.expander("Solar system (PV)", expanded=False):
-                required_label("PV system size (kWp)")
-                st.number_input("PV system size (kWp)", min_value=0.1, max_value=50.0, step=0.1, key="system_kw", label_visibility="collapsed")
-                st.caption("kWp = panel peak rating (what installers quote).")
-                st.selectbox("Roof orientation", options=list(ORIENTATION_OPTIONS.keys()), key="orientation")
-                st.checkbox("I live in the southern hemisphere (advanced)", key="southern_hemisphere")
-                st.caption(f"Effective azimuth used: {effective_azimuth_from_state():.0f}°")
-                with st.expander("Advanced PV parameters", expanded=False):
-                    st.slider("System losses (%)", min_value=8, max_value=20, step=1, key="loss_frac_pct")
-                    st.session_state["loss_frac"] = float(st.session_state["loss_frac_pct"]) / 100.0
-                    st.number_input("Panel tilt (°)", min_value=0.0, max_value=90.0, step=1.0, key="surface_tilt")
-                    st.number_input("Cell temperature assumption (NOCT, °C)", min_value=20.0, max_value=70.0, value=40.0, step=1.0, key="noct")
-                    st.caption("NOCT = Nominal Operating Cell Temperature; default is 40°C.")
-                    st.caption("Orientation (azimuth) is applied in PVGIS; with tilt at 0°, azimuth has minimal effect.")
-                    st.number_input("Temp coefficient (/°C)", step=0.001, format="%.4f", key="temp_coeff")
-                    st.number_input(
-                        "Inverter AC limit (kW) — optional (0.0 means none)",
-                        min_value=0.0, max_value=50.0, step=0.1, key="inverter_ac_kw"
-                    )
+        with st.expander("Solar system (PV)", expanded=False):
+            required_label("PV system size (kWp)")
+            st.number_input("PV system size (kWp)", min_value=0.1, max_value=50.0, step=0.1, key="system_kw", label_visibility="collapsed")
+            st.caption("kWp = panel peak rating (what installers quote).")
+            st.selectbox("Roof orientation", options=list(ORIENTATION_OPTIONS.keys()), key="orientation")
+            st.checkbox("I live in the southern hemisphere (advanced)", key="southern_hemisphere")
+            st.caption(f"Effective azimuth used: {effective_azimuth_from_state():.0f}°")
+            with st.expander("Advanced PV parameters", expanded=False):
+                st.slider("System losses (%)", min_value=8, max_value=20, step=1, key="loss_frac_pct")
+                st.session_state["loss_frac"] = float(st.session_state["loss_frac_pct"]) / 100.0
+                st.number_input("Panel tilt (°)", min_value=0.0, max_value=90.0, step=1.0, key="surface_tilt")
+                st.number_input("Cell temperature assumption (NOCT, °C)", min_value=20.0, max_value=70.0, value=40.0, step=1.0, key="noct")
+                st.caption("NOCT = Nominal Operating Cell Temperature; default is 40°C.")
+                st.caption("Orientation (azimuth) is applied in PVGIS; with tilt at 0°, azimuth has minimal effect.")
+                st.number_input("Temp coefficient (/°C)", step=0.001, format="%.4f", key="temp_coeff")
+                st.number_input(
+                    "Inverter AC limit (kW) — optional (0.0 means none)",
+                    min_value=0.0, max_value=50.0, step=0.1, key="inverter_ac_kw"
+                )
 
-            with st.expander("Home electricity use", expanded=False):
-                required_label("Annual household electricity use (kWh/year)")
-                st.number_input("Annual household electricity use (kWh/year)", min_value=100.0, max_value=30000.0, step=100.0, key="annual_load_kwh", label_visibility="collapsed")
-                st.selectbox("Load profile", options=["away_daytime", "home_daytime"], key="profile")
-                st.slider(
-                    "Seasonal demand swing (Dec vs Jun) (%)",
-                    min_value=20,
-                    max_value=40,
-                    value=30,
+        with st.expander("Home electricity use", expanded=False):
+            render_home_electricity_use_inputs()
+
+        with st.expander("Tariffs", expanded=False):
+            st.radio(
+                "Tariff mode",
+                options=["compare", "compare_all", "A", "B", "C"],
+                horizontal=True,
+                key="tariff_mode",
+                format_func=lambda x: TARIFF_MODE_LABELS.get(x, x),
+            )
+            st.caption("Tariff A = flat import price + flat export payment. Tariff B = time-of-use import prices + flat export payment. Compare = show both. Tariff C is a worst-case export payment scenario (very low export rate).")
+            st.number_input("Tariff A — flat import price (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffA_import")
+            st.number_input("Tariff A — export payment (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffA_export")
+            st.number_input("Tariff B — peak import price (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffB_peak")
+            st.number_input("Tariff B — off‑peak import price (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffB_offpeak")
+            st.number_input("Tariff B — export payment (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffB_export")
+            if st.session_state["tariff_mode"] in {"C", "compare_all"}:
+                st.number_input("Tariff C — minimum export payment (worst‑case) (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffC_export")
+                st.caption("Example: 0.05 = 5p per kWh exported")
+            st.number_input("Peak start hour (0–23)", min_value=0, max_value=23, step=1, key="peak_start")
+            st.number_input("Peak end hour (1–24)", min_value=1, max_value=24, step=1, key="peak_end")
+
+        with st.expander("Costs & outputs", expanded=False):
+            required_label("Upfront system cost (£)")
+            st.number_input("Upfront system cost (£)", min_value=0.0, max_value=200000.0, step=100.0, key="capex", label_visibility="collapsed")
+            st.number_input("Discount rate (used to value future savings) (%)", min_value=0.0, max_value=20.0, step=0.1, format="%.2f", key="discount_rate_pct")
+            st.number_input("Lifetime (years)", min_value=1, max_value=50, step=1, key="lifetime_years")
+            st.number_input("Degradation per year", min_value=0.0, max_value=0.03, step=0.001, format="%.4f", key="degradation")
+            st.number_input("Yearly maintenance (% of upfront cost)", min_value=0.0, max_value=5.0, step=0.1, format="%.2f", key="om_frac_pct")
+            st.number_input("End-of-life salvage / disposal value (£)", min_value=-200000.0, max_value=200000.0, step=50.0, key="salvage_value_gbp")
+            st.caption("Positive = salvage value recovered. Negative = disposal cost at end of life.")
+            st.caption("This is an estimate over 15 years.")
+            st.checkbox("Export hourly CSV", key="export_hourly")
+            st.checkbox("Export daily CSV", key="export_daily")
+            st.checkbox("Export monthly CSV", key="export_monthly")
+
+        with st.expander("Comparative analysis (recommended)", expanded=False):
+            st.checkbox(
+                "Run model sanity checks (recommended)",
+                key="enable_verification_checks",
+                help="Checks the energy accounting adds up (no negative kWh, PV splits correctly, etc.).",
+            )
+            st.checkbox(
+                "Compare against PVGIS reference PV output (optional, slower)",
+                key="enable_pvgis_crosscheck",
+                help="Cross-checks monthly PV output against PVGIS’s built-in PV calculation.",
+            )
+            st.markdown("#### Sensitivity analysis")
+            render_sensitivity_controls()
+            st.checkbox("Enable historical variability (multi-year)", key="enable_variability")
+            vcols = st.columns(2)
+            with vcols[0]:
+                st.number_input(
+                    "Start year",
+                    min_value=2005,
+                    max_value=2023,
                     step=1,
-                    key="seasonal_variance_pct",
+                    key="variability_year_start",
                 )
-                st.caption("Week plot length is fixed at 7 days.")
-
-            with st.expander("Tariffs", expanded=False):
-                st.radio(
-                    "Tariff mode",
-                    options=["compare", "compare_all", "A", "B", "C"],
-                    horizontal=True,
-                    key="tariff_mode",
-                    format_func=lambda x: TARIFF_MODE_LABELS.get(x, x),
+            with vcols[1]:
+                st.number_input(
+                    "End year",
+                    min_value=2005,
+                    max_value=2023,
+                    step=1,
+                    key="variability_year_end",
                 )
-                st.caption("Tariff A = flat import price + flat export payment. Tariff B = time-of-use import prices + flat export payment. Compare = show both. Tariff C is a worst-case export payment scenario (very low export rate).")
-                st.number_input("Tariff A — flat import price (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffA_import")
-                st.number_input("Tariff A — export payment (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffA_export")
-                st.number_input("Tariff B — peak import price (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffB_peak")
-                st.number_input("Tariff B — off‑peak import price (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffB_offpeak")
-                st.number_input("Tariff B — export payment (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffB_export")
-                if st.session_state["tariff_mode"] in {"C", "compare_all"}:
-                    st.number_input("Tariff C — minimum export payment (worst‑case) (£/kWh)", min_value=0.0, max_value=3.0, step=0.01, format="%.3f", key="tariffC_export")
-                    st.caption("Example: 0.05 = 5p per kWh exported")
-                st.number_input("Peak start hour (0–23)", min_value=0, max_value=23, step=1, key="peak_start")
-                st.number_input("Peak end hour (1–24)", min_value=1, max_value=24, step=1, key="peak_end")
-
-            with st.expander("Costs & outputs", expanded=False):
-                required_label("Upfront system cost (£)")
-                st.number_input("Upfront system cost (£)", min_value=0.0, max_value=200000.0, step=100.0, key="capex", label_visibility="collapsed")
-                st.number_input("Discount rate (used to value future savings) (%)", min_value=0.0, max_value=20.0, step=0.1, format="%.2f", key="discount_rate_pct")
-                st.number_input("Lifetime (years)", min_value=1, max_value=50, step=1, key="lifetime_years")
-                st.number_input("Degradation per year", min_value=0.0, max_value=0.03, step=0.001, format="%.4f", key="degradation")
-                st.number_input("Yearly maintenance (% of upfront cost)", min_value=0.0, max_value=5.0, step=0.1, format="%.2f", key="om_frac_pct")
-                st.number_input("End-of-life salvage / disposal value (£)", min_value=-200000.0, max_value=200000.0, step=50.0, key="salvage_value_gbp")
-                st.caption("Positive = salvage value recovered. Negative = disposal cost at end of life.")
-                st.caption("This is an estimate over 15 years.")
-                st.checkbox("Export hourly CSV", key="export_hourly")
-                st.checkbox("Export daily CSV", key="export_daily")
-                st.checkbox("Export monthly CSV", key="export_monthly")
-
-            with st.expander("Comparative analysis (recommended)", expanded=False):
-                st.checkbox(
-                    "Run model sanity checks (recommended)",
-                    key="enable_verification_checks",
-                    help="Checks the energy accounting adds up (no negative kWh, PV splits correctly, etc.).",
-                )
-                st.checkbox(
-                    "Compare against PVGIS reference PV output (optional, slower)",
-                    key="enable_pvgis_crosscheck",
-                    help="Cross-checks monthly PV output against PVGIS’s built-in PV calculation.",
-                )
-                st.markdown("#### Sensitivity analysis")
-                render_sensitivity_controls()
-                st.checkbox("Enable historical variability (multi-year)", key="enable_variability")
-                vcols = st.columns(2)
-                with vcols[0]:
-                    st.number_input(
-                        "Start year",
-                        min_value=2005,
-                        max_value=2023,
-                        step=1,
-                        key="variability_year_start",
-                    )
-                with vcols[1]:
-                    st.number_input(
-                        "End year",
-                        min_value=2005,
-                        max_value=2023,
-                        step=1,
-                        key="variability_year_end",
-                    )
-            st.text_input("Run notes (optional)", key="run_notes")
-            render_chart_settings_block(show_heading=True)
-            run_clicked = st.form_submit_button("▶ Calculate", use_container_width=True)
+        render_chart_settings_block(show_heading=True)
+        st.markdown(
+            """
+            <style>
+            div.st-key-fullscreen_calculate button {
+                background: linear-gradient(135deg, #b71c1c 0%, #e53935 100%);
+                color: #ffffff;
+                border: 1px solid #8f1515;
+                border-radius: 999px;
+                min-height: 3.25rem;
+                font-size: 1.08rem;
+                font-weight: 800;
+                letter-spacing: 0.02em;
+                box-shadow: 0 10px 24px rgba(183, 28, 28, 0.28);
+                transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+            }
+            div.st-key-fullscreen_calculate button:hover {
+                filter: brightness(1.04);
+                border-color: #6f1010;
+                box-shadow: 0 14px 30px rgba(183, 28, 28, 0.34);
+                transform: translateY(-1px);
+            }
+            div.st-key-fullscreen_calculate button:focus {
+                box-shadow: 0 0 0 0.22rem rgba(229, 57, 53, 0.24), 0 10px 24px rgba(183, 28, 28, 0.28);
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+        run_clicked = st.button("▶ Calculate", key="fullscreen_calculate", use_container_width=True)
 
 # ---------------------------
 # Run action

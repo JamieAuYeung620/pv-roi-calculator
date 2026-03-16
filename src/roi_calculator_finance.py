@@ -21,6 +21,11 @@ except Exception as exc:
     print("Details:", repr(exc))
     sys.exit(1)
 
+try:
+    from load_model import format_allowed_profiles, resolve_profile_alias
+except ModuleNotFoundError:
+    from src.load_model import format_allowed_profiles, resolve_profile_alias
+
 
 # -----------------------------
 # Helpers: repo root, safety, parsing
@@ -61,8 +66,10 @@ def validate_inputs(args: argparse.Namespace) -> None:
         friendly_exit("ERROR: --system-kw must be > 0")
     if args.annual_load_kwh <= 0:
         friendly_exit("ERROR: --annual-load-kwh must be > 0")
-    if args.profile not in {"home_daytime", "away_daytime"}:
-        friendly_exit("ERROR: --profile must be one of: home_daytime, away_daytime")
+    try:
+        resolve_profile_alias(args.profile)
+    except ValueError as exc:
+        friendly_exit(f"ERROR: {exc}")
 
     # Finance parameters
     if args.capex <= 0:
@@ -109,7 +116,7 @@ def load_hourly_energy_csv(hourly_csv_path: Path) -> pd.DataFrame:
             "Fix: Run the core step first to generate it. Example:\n"
             "  python src/roi_calculator_core.py "
             "--location warwick_campus --system-kw 4 --annual-load-kwh 3200 "
-            "--profile away_daytime --import-tariff 0.28 --export-tariff 0.15\n"
+            "--profile empirical_evening_peaked --import-tariff 0.28 --export-tariff 0.15\n"
         )
 
     df = pd.read_csv(hourly_csv_path)
@@ -615,8 +622,8 @@ def build_argument_parser() -> argparse.ArgumentParser:
                         help="PV system size in kW (stored in output summary; must be > 0).")
     parser.add_argument("--annual-load-kwh", type=float, required=True,
                         help="Annual load in kWh/year (stored in output summary; must be > 0).")
-    parser.add_argument("--profile", type=str, required=True, choices=["home_daytime", "away_daytime"],
-                        help="Load profile name (stored in output summary).")
+    parser.add_argument("--profile", type=str, required=True,
+                        help=f"Load profile name (stored in output summary). Allowed values: {format_allowed_profiles()}.")
 
     # Finance model parameters
     parser.add_argument("--capex", type=float, required=True,

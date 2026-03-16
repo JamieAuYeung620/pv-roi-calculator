@@ -21,6 +21,23 @@ except Exception as exc:
     print("Details:", repr(exc))
     sys.exit(1)
 
+try:
+    from load_model import (
+        DEFAULT_ARCHETYPE_PATH,
+        format_allowed_profiles,
+        load_empirical_archetypes,
+        resolve_profile_alias,
+        generate_empirical_hourly_load_weights,
+    )
+except ModuleNotFoundError:
+    from src.load_model import (
+        DEFAULT_ARCHETYPE_PATH,
+        format_allowed_profiles,
+        load_empirical_archetypes,
+        resolve_profile_alias,
+        generate_empirical_hourly_load_weights,
+    )
+
 
 # -----------------------------
 # Constants / model defaults
@@ -258,78 +275,23 @@ def compute_pv_ac_power_kw_pvwatts(
 # -----------------------------
 # Load profile generation
 # -----------------------------
-def get_daily_load_shape(profile_name: str) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Returns (home_daytime_shape, away_daytime_shape) as 24-length arrays.
-    Values are relative weights (not kWh yet).
-    """
-    # More load during daytime
-    home_daytime = np.array([
-        0.28, 0.24, 0.22, 0.22, 0.24, 0.30,
-        0.40, 0.50, 0.56, 0.62, 0.68, 0.72,
-        0.76, 0.76, 0.72, 0.66, 0.60, 0.64,
-        0.74, 0.80, 0.74, 0.64, 0.48, 0.36
-    ], dtype=float)
-
-    # More load morning/evening, less midday
-    away_daytime = np.array([
-        0.28, 0.24, 0.22, 0.22, 0.24, 0.34,
-        0.50, 0.72, 0.78, 0.60, 0.44, 0.34,
-        0.28, 0.28, 0.32, 0.38, 0.50, 0.76,
-        0.92, 0.98, 0.92, 0.76, 0.58, 0.38
-    ], dtype=float)
-
-    if profile_name not in {"home_daytime", "away_daytime"}:
-        friendly_exit(
-            "ERROR: Invalid --profile value.\n"
-            "Allowed: home_daytime, away_daytime"
-        )
-
-    return home_daytime, away_daytime
-
-
 def generate_hourly_load_weights(
     index_utc: pd.DatetimeIndex,
     profile_name: str,
     seasonal_variance_pct: float,
 ) -> np.ndarray:
     """
-    Generate a synthetic household load 'shape' per hour (relative weights).
-
-    Includes:
-      - Hour-of-day pattern (different by archetype)
-      - Mild weekend behaviour difference
-      - Mild seasonal factor (winter slightly higher, summer slightly lower)
-
-    Output is a positive weight per timestamp (interpretable as relative kW before scaling).
+    Generate empirical household load weights per hour using the versioned
+    repo archetype asset. seasonal_variance_pct is accepted for backwards
+    compatibility but ignored by the empirical model.
     """
-    home_shape, away_shape = get_daily_load_shape(profile_name=profile_name)
-
-    hours = index_utc.hour.values
-    is_weekend = (index_utc.weekday.values >= 5)  # Saturday=5, Sunday=6
-
-    # Base hour-of-day weights
-    if profile_name == "home_daytime":
-        base = home_shape[hours]
-        weekend_multiplier = np.where(is_weekend, 1.05, 1.00)  # slightly higher weekend usage
-    else:
-        # On weekends, an "away daytime" home is often more like "home daytime".
-        away_base = away_shape[hours]
-        weekend_base = 0.6 * away_shape[hours] + 0.4 * home_shape[hours]
-        base = np.where(is_weekend, weekend_base, away_base)
-        weekend_multiplier = np.ones_like(base, dtype=float)
-
-    # Seasonal factor: peak in mid-winter, lower in mid-summer.
-    # A "Dec vs Jun swing" of X% maps to +/- X/2% around the baseline.
-    day_of_year = index_utc.dayofyear.values.astype(float)
-    seasonal_amplitude = float(seasonal_variance_pct) / 200.0
-    seasonal_factor = 1.0 + seasonal_amplitude * np.cos(2.0 * np.pi * (day_of_year - 15.0) / 365.25)
-
-    weights = base * weekend_multiplier * seasonal_factor
-
-    # Defensive: ensure strictly positive weights
-    weights = np.maximum(weights, 1e-6)
-    return weights
+    _ = seasonal_variance_pct
+    archetypes = load_empirical_archetypes(DEFAULT_ARCHETYPE_PATH)
+    return generate_empirical_hourly_load_weights(
+        index_utc=index_utc,
+        profile_name=profile_name,
+        archetypes=archetypes,
+    )
 
 
 def scale_load_to_annual_kwh(
@@ -524,7 +486,7 @@ def save_energy_split_plot(
 # -----------------------------
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Household PV ROI calculator core (PVWatts-style PV + synthetic load + Tariff A)."
+        description="Household PV ROI calculator core (PVWatts-style PV + empirical load archetypes + Tariff A)."
     )
 
     parser.add_argument("--location", type=str, required=True,
@@ -533,13 +495,13 @@ def build_argument_parser() -> argparse.ArgumentParser:
                         help="PV system DC size in kW (must be > 0).")
     parser.add_argument("--annual-load-kwh", type=float, required=True,
                         help="Annual household electricity consumption in kWh/year (must be > 0).")
-    parser.add_argument("--profile", type=str, required=True, choices=["home_daytime", "away_daytime"],
-                        help="Synthetic load profile archetype.")
+    parser.add_argument("--profile", type=str, required=True,
+                        help=f"Household load archetype. Allowed values: {format_allowed_profiles()}.")
     parser.add_argument(
         "--seasonal-variance-pct",
         type=float,
         default=30.0,
-        help="Seasonal load swing between December and June in percent (default: 30).",
+        help="Deprecated compatibility option. Accepted but ignored by the empirical load model.",
     )
     parser.add_argument("--import-tariff", type=float, required=True,
                         help="Flat import price in £/kWh (must be >= 0).")
@@ -574,8 +536,12 @@ def validate_inputs(args: argparse.Namespace) -> None:
         friendly_exit("ERROR: --import-tariff must be >= 0")
     if args.export_tariff < 0:
         friendly_exit("ERROR: --export-tariff must be >= 0")
-    if args.seasonal_variance_pct < 20 or args.seasonal_variance_pct > 40:
-        friendly_exit("ERROR: --seasonal-variance-pct must be between 20 and 40")
+    try:
+        resolve_profile_alias(args.profile)
+    except ValueError as exc:
+        friendly_exit(f"ERROR: {exc}")
+    if not np.isfinite(float(args.seasonal_variance_pct)):
+        friendly_exit("ERROR: --seasonal-variance-pct must be a finite number")
 
     if not (0.0 <= args.loss_frac < 1.0):
         friendly_exit("ERROR: --loss-frac must be in [0, 1)")
@@ -600,6 +566,7 @@ def main() -> None:
     parser = build_argument_parser()
     args = parser.parse_args()
     validate_inputs(args)
+    resolved_profile_name = resolve_profile_alias(args.profile)
 
     repo_root = get_repo_root()
     location_slug = slugify_location(args.location)
@@ -795,7 +762,10 @@ def main() -> None:
     print("=" * 78)
     print(f"Location:                 {location_slug}")
     print(f"PV system size (DC):      {args.system_kw:.2f} kW")
-    print(f"Load profile:             {args.profile}")
+    if resolved_profile_name != args.profile:
+        print(f"Load profile:             {resolved_profile_name}  (legacy alias: {args.profile})")
+    else:
+        print(f"Load profile:             {resolved_profile_name}")
     print(f"Annual load target:       {args.annual_load_kwh:,.0f} kWh/year")
     print("")
     print("PV model assumptions:")

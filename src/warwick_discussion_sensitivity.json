@@ -29,7 +29,7 @@
   },
   "load": {
     "annual_load_kwh": 3500.0,
-    "profile": "away_daytime",
+    "profile": "empirical_evening_peaked",
     "seasonal_variance_pct": 30,
     "week_start": "2020-06-01",
     "week_days": 7

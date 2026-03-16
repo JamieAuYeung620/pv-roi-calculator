@@ -7,6 +7,11 @@ from typing import Any, Dict, Optional, Literal
 import json
 from datetime import datetime
 
+try:
+    from load_model import DEFAULT_PROFILE, format_allowed_profiles, is_supported_profile
+except ModuleNotFoundError:
+    from src.load_model import DEFAULT_PROFILE, format_allowed_profiles, is_supported_profile
+
 
 TariffMode = Literal["compare", "compare_all", "A", "B", "C"]
 AnalysisWindowMode = Literal["full_year", "custom"]
@@ -56,8 +61,8 @@ class LoadConfig:
     Household load settings (match roi_calculator_core.py CLI flags).
     """
     annual_load_kwh: float = 3200.0
-    profile: str = "away_daytime"  # "home_daytime" or "away_daytime"
-    seasonal_variance_pct: int = 30
+    profile: str = DEFAULT_PROFILE
+    seasonal_variance_pct: int = 30  # Deprecated compatibility field; ignored by the empirical load model.
 
     # Used for week plot (pipeline will generate a week plot from selected window)
     week_start: Optional[str] = None  # "YYYY-MM-DD" or None to auto-pick
@@ -271,10 +276,8 @@ def validate_config(cfg: PVROIRunConfig) -> None:
         errors.append("pv.surface_azimuth_deg must be between 0 and 360.")
     if cfg.load.annual_load_kwh <= 0:
         errors.append("load.annual_load_kwh must be > 0.")
-    if cfg.load.profile not in {"home_daytime", "away_daytime"}:
-        errors.append("load.profile must be 'home_daytime' or 'away_daytime'.")
-    if cfg.load.seasonal_variance_pct < 20 or cfg.load.seasonal_variance_pct > 40:
-        errors.append("load.seasonal_variance_pct must be between 20 and 40.")
+    if not is_supported_profile(cfg.load.profile):
+        errors.append(f"load.profile must be one of: {format_allowed_profiles()}.")
     if cfg.load.week_days < 1 or cfg.load.week_days > 31:
         errors.append("load.week_days must be between 1 and 31.")
 

@@ -8,7 +8,7 @@
   },
   "load": {
     "annual_load_kwh": 3200.0,
-    "profile": "away_daytime",
+    "profile": "empirical_evening_peaked",
     "week_days": 7,
     "week_start": null
   },
@@ -16,7 +16,7 @@
     "force_download": false,
     "lat": 52.384,
     "lon": -1.5615,
-    "name": "University of Warwick",
+    "name": "warwick_campus",
     "year": 2020
   },
   "meta": {
